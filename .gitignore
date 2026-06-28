@@ -1,0 +1,66 @@
+# Public-repo allowlist. Everything is local unless explicitly included below.
+*
+!*/
+
+# Root metadata
+!.gitattributes
+!.gitignore
+!README.md
+!pyproject.toml
+
+# Runtime configuration that is safe to publish
+!.streamlit/
+!.streamlit/config.toml
+
+# Public framework
+!prediction_framework/
+!prediction_framework/**
+# Public examples, apps, scripts, docs, and tests
+!examples/
+!examples/basic_football_pool/
+!examples/basic_football_pool/**
+examples/football_world_cup_2026/
+examples/football_world_cup_2026/**
+!apps/
+!apps/**
+!scripts/
+!scripts/build_inputs.py
+!scripts/build_probabilities.py
+!scripts/build_field_model.py
+!scripts/run_strategy.py
+!ai_skills/
+!ai_skills/**
+!docs/
+!docs/**
+!tests/
+!tests/test_framework.py
+!tests/test_scoring.py
+
+# Keep private/specific local documents and tournament variants out of public git.
+docs/rules/
+docs/rules/**
+docs/strategy/
+docs/strategy/**
+tournaments/
+tournaments/**
+
+# Always ignore generated/local noise, even inside included folders.
+__pycache__/
+*.py[cod]
+*.pyo
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.venv/
+.venv-*/
+venv/
+env/
+.env
+.env.*
+!.env.example
+*.log
+uv.lock

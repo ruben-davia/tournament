@@ -1,0 +1,6 @@
+field_model:
+  truth_probability_column: truth_probability
+  popularity_hint_column: popularity_hint
+  chalk_weight: 1.0
+  popularity_weight: 1.0
+

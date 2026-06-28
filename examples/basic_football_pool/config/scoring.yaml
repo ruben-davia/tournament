@@ -1,0 +1,9 @@
+football_exact_score:
+  exact_score: 6
+  correct_result_goal_difference: 4
+  correct_result_winner_goals: 4
+  correct_result_only: 3
+  wrong_result: 0
+  supports_outsider_bonus: true
+  supports_multiplier: true
+

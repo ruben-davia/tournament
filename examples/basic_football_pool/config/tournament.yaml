@@ -1,0 +1,6 @@
+name: basic_football_pool
+description: Minimal anonymous example for a football prediction contest.
+events:
+  type: football_exact_score
+  teams: anonymous
+
