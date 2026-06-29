@@ -1,91 +1,73 @@
-# Prediction Tournament Strategy Framework
+# Win Prediction Tournaments with Strategy Simulation
 
-The goal is to win a prediction tournament, or finish where the payout matters. A tournament is defined by picks, scoring rules, opponents, and a gain function attached to final rank:
+This repo helps you win prediction tournaments by simulating outcomes, opponents, and payout-aware strategies.
+
+It is built for contests where the objective is a **leaderboard rank**: finish first, reach the paid places, maximize expected payout, or control downside. The examples are **football-oriented**. The method applies to any point-based prediction contest.
+
+## What It Does
+
+The framework turns a tournament into a strategy problem. It models **what can happen**, **what opponents are likely to pick**, and **how each portfolio scores**.
+
+- **Simulate the tournament**: outcomes, opponent picks, scores, leaderboard, payout.
+- **Compare portfolios**: safe, top-1, top-X, contrarian, risk-capped.
+- **Update live decisions**: lock known results and revalue remaining picks with backward strategy.
+
+The chart below shows a simulated optimized strategy through tournament rounds. Each frame is a **rank probability mass**. More mass on the left means a better chance to finish near the top.
+
+![Rank distribution through tournament rounds](docs/assets/readme-rank-distribution-tournament-rounds.gif)
+
+## Objective Function
+
+A portfolio is selected from the gain attached to final rank:
 
 ```math
 s^* = \arg\max_{s \in S} \mathbb{E}[G(R_s)]
 ```
 
-`s` is a portfolio, `R_s` is its simulated final rank, and `G(rank)` is the payout or utility of that rank.
+`s` is a portfolio. `R_s` is its simulated final rank. `G(rank)` is the payout or utility of that rank.
 
-The framework searches for this portfolio by combining scoring rules, outcome probabilities, field modeling, expert signals, Monte Carlo simulation, and backward strategy updates when the tournament is live.
+If the payout rewards **top 5**, the objective targets top-5 probability. If the contest is **winner-take-all**, the objective targets rank 1. If downside matters, `G` can include a risk penalty.
 
-The examples are football-oriented. The method applies to any point-based prediction contest where the objective is paid places, top X, top 1, expected payout, or controlled risk.
+## Modeling The Tournament
 
-## Monte Carlo Tournament Simulation
+The tournament model separates the pieces that drive leaderboard value. This keeps probability, popularity, scoring, and payout from being mixed together.
 
-Monte Carlo estimates the rank distribution of each portfolio. It creates many possible versions of the tournament and samples outcomes, opponent picks, scores, ranks, and payout.
+- **Scoring rules** define how picks become points.
+- **Truth probabilities** estimate what is likely to happen.
+- **Field probabilities** estimate what other players are likely to pick.
+- **Expert signals** adjust assumptions for injuries, lineups, tactics, or context.
+- **Leaderboard simulation** combines everything into rank and payout distributions.
 
-Backward strategy updates the decision problem when the tournament is live: known results are locked, the current leaderboard is used, and remaining picks are valued from the new state.
-
-The GIF is a simulated output for an optimized strategy. Each frame shows the rank probability mass after a tournament round. More mass on the left means a better chance to finish near the top.
-
-![Rank distribution through tournament rounds](docs/assets/readme-rank-distribution-tournament-rounds.gif)
-
-The simulation helps identify:
-
-- which portfolio fits the payout
-- where the strategy wins
-- where it fails
-- how sensitive it is to field assumptions
-
-## Three Models
-
-A prediction contest has three different models:
-
-- **Truth**: what is likely to happen.
-- **Field**: what other players are likely to pick.
-- **Strategy**: what you should pick given payout and risk.
-
-Tournament value comes from probability, ownership, scoring, and payout. A useful pick improves the full rank distribution against the field.
-
-## Pipeline
-
-1. Define the tournament: matches, questions, scoring, bonuses, paid places.
-2. Build probabilities: market odds, model probabilities, manual assumptions.
-3. Model the field: estimate popular, crowded, and under-owned picks.
-4. Add expert signals: injuries, lineups, tactical notes, context.
-5. Simulate the leaderboard: outcomes, opponents, scores, ranks, payouts.
-6. Use backward logic when live: lock known results and value remaining choices.
-7. Choose a strategy: match the portfolio to the payout objective.
+```text
+rules + probabilities + field + signals + payout
+                  -> simulated leaderboard
+                  -> ranked strategy portfolios
+```
 
 ## Modeling Other Players
 
-The field model estimates what other players are likely to pick.
+The **field model** estimates ownership: how often other players choose each pick. This is useful because leaderboard value depends on being correct **and** being positioned well against the crowd.
 
-It uses signals such as:
-
-- popular picks
-- market favorites
-- common score patterns
-- expert narratives
-- current standings
-- remaining risk appetite
-
-A correct crowded pick can add little separation. A lower-owned pick can be valuable when its probability is still strong.
+It can use **market favorites**, **popular score patterns**, **expert narratives**, **current standings**, and **remaining risk appetite**. A correct crowded pick can add little separation. A lower-owned pick can be valuable when its probability is still strong.
 
 ## Choosing A Strategy
 
-Strategy selection maps the payout objective to the right risk profile.
+Strategy selection maps the payout objective to the right risk profile. The same tournament can lead to different portfolios depending on what gets paid.
 
-- Paid places: prioritize survival and stable top-X probability.
-- Top 1: accept more variance for more upside.
-- Top X: balance ceiling and downside.
-- Risk control: avoid fragile portfolios with narrow win paths.
+- **Paid places**: prioritize survival and stable top-X probability.
+- **Top 1**: accept more variance for more upside.
+- **Top X**: balance ceiling and downside.
+- **Risk control**: avoid fragile portfolios with narrow win paths.
 
 ![Final rank distribution by strategy](docs/assets/readme-final-rank-distribution-by-strategy.png)
 
 ## Stress Testing
 
-Stress testing checks whether the portfolio remains strong when assumptions move.
+Stress testing checks whether the portfolio remains strong when assumptions move. It measures robustness across scenario changes and expected value.
 
-Compare scenarios where:
+Compare scenarios where the **field is chalkier**, probabilities are **noisier**, opponents become **sharper**, expert signals conflict with markets, or downside becomes more expensive.
 
-- the field is more chalky than expected
-- input probabilities are noisy
-- opponents become sharper
-- expert signals conflict with markets
-- the payout makes downside more expensive
+The goal is to keep strategies that still have good rank distributions across plausible worlds.
 
 ![Final rank distribution by scenario](docs/assets/readme-final-rank-distribution-by-scenario.png)
 
