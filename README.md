@@ -1,14 +1,22 @@
 # Prediction Tournament Strategy Framework
 
-A reusable framework for choosing portfolios in prediction tournaments. It is designed for contests where many players submit picks, payouts depend on leaderboard rank, and the right strategy depends on both probabilities and opponent behavior.
+The goal is to win a prediction tournament, or finish where the payout matters. A tournament is defined by picks, scoring rules, opponents, and a gain function attached to final rank:
 
-The framework combines scoring rules, outcome probabilities, field modeling, expert signals, and payout structure. It simulates tournaments, compares strategy portfolios, and measures rank distributions under different assumptions.
+```math
+s^* = \arg\max_{s \in S} \mathbb{E}[G(R_s)]
+```
+
+`s` is a portfolio, `R_s` is its simulated final rank, and `G(rank)` is the payout or utility of that rank.
+
+The framework searches for this portfolio by combining scoring rules, outcome probabilities, field modeling, expert signals, Monte Carlo simulation, and backward strategy updates when the tournament is live.
 
 The examples are football-oriented. The method applies to any point-based prediction contest where the objective is paid places, top X, top 1, expected payout, or controlled risk.
 
 ## Monte Carlo Tournament Simulation
 
-Monte Carlo estimates where a portfolio can finish on the leaderboard. It creates many possible versions of the tournament and samples outcomes, opponent picks, scores, ranks, and payout.
+Monte Carlo estimates the rank distribution of each portfolio. It creates many possible versions of the tournament and samples outcomes, opponent picks, scores, ranks, and payout.
+
+Backward strategy updates the decision problem when the tournament is live: known results are locked, the current leaderboard is used, and remaining picks are valued from the new state.
 
 The GIF is a simulated output for an optimized strategy. Each frame shows the rank probability mass after a tournament round. More mass on the left means a better chance to finish near the top.
 
