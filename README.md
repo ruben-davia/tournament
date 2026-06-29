@@ -1,4 +1,4 @@
-# Win Prediction Tournaments with Strategy Simulation
+# Optimal Strategy for Prediction Tournaments
 
 This repo helps you win prediction tournaments by simulating outcomes, opponents, and payout-aware strategies.
 
