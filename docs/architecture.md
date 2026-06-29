@@ -52,7 +52,7 @@ The simulator samples:
 3. how many points everyone scores
 4. where each strategy lands on the leaderboard
 
-The output is strategy-level, not just pick-level.
+The output is strategy-level.
 
 ## 5. Strategy Ranking
 
@@ -63,5 +63,4 @@ Strategies are ranked by contest outcomes:
 - probability of finishing first
 - probability of finishing in the top 10 percent
 
-This is why the most likely pick is not always the best contest pick.
-
+The best contest pick depends on probability, ownership, scoring, and payout.

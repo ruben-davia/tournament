@@ -31,7 +31,7 @@ Use scenarios when the truth model is uncertain:
 - low-score or high-score scenario
 - tail-heavy scenario for unusual scores
 
-The point is not to pretend that one probability table is perfect. The point is to test whether a strategy still works when the world is slightly different from the base model.
+Scenario testing measures whether a strategy still works when the world is slightly different from the base model.
 
 ## 2. Simulate Opponent Picks
 
@@ -111,7 +111,7 @@ Adaptive simulation should lock known history, then simulate only the remaining 
 
 ## Output
 
-A useful simulation output is not just "pick this".
+A useful simulation output explains the portfolio decision.
 
 It should include:
 

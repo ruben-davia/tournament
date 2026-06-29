@@ -58,7 +58,7 @@ A robust frontier compares strategies across metrics:
 - concentration
 - selection quality
 
-The recommended portfolio should come from a near-optimal band, not from one noisy simulation run.
+The recommended portfolio should come from a near-optimal band across many simulations.
 
 Typical rule:
 

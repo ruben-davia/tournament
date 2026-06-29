@@ -2,7 +2,7 @@
 
 This framework works only if the inputs are honest about what they represent.
 
-The goal is not to find one magic source. The goal is to build a source stack, label each signal, and avoid mixing truth probability with popularity.
+The goal is to build a source stack, label each signal, and avoid mixing truth probability with popularity.
 
 ## Source Families
 
