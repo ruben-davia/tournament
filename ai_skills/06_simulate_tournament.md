@@ -14,8 +14,8 @@ You need to compare strategies by leaderboard outcome.
    - `paid_places` for top-X payout
    - `top_1` for winner upside
    - balanced if both matter
-6. Run enough simulations with a fixed seed.
-7. Re-run across truth and field scenarios.
+6. Use enough simulations with a fixed seed.
+7. Compare truth and field scenarios.
 8. Rank by paid-place probability first when payout has top X, then top-1 upside and risk.
 
 ## Code To Use

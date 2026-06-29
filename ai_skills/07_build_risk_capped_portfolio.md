@@ -17,7 +17,7 @@ The user needs picks that can win or finish paid without taking uncontrolled ris
 5. Avoid too many fragile exact scores.
 6. Check draw exposure against model-implied draw frequency.
 7. Compare risk-capped portfolio to baseline EV.
-8. Choose from a near-optimal frontier, not one noisy run.
+8. Choose from a near-optimal frontier across many simulations.
 
 ## Code To Use
 
@@ -35,4 +35,4 @@ The user needs picks that can win or finish paid without taking uncontrolled ris
 
 ## Hard Rule
 
-Do not recommend a pick only because it is contrarian. It must still have enough probability, payout value, or scenario value.
+A contrarian pick needs enough probability, payout value, or scenario value.

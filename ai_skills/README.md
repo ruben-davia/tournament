@@ -2,7 +2,7 @@
 
 These skills are operating procedures for an AI agent using this repo.
 
-Use the smallest skill that matches the task. Do not run the full pipeline by habit.
+Use the smallest skill that matches the task. Choose the full pipeline only when the whole workflow is needed.
 
 ## Skill Map
 

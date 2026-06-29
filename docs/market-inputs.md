@@ -1,6 +1,6 @@
 # Market And Probability Inputs
 
-The framework does not call a betting API by default.
+The framework uses provided market inputs by default.
 
 It expects you to provide one of these:
 
@@ -50,4 +50,3 @@ python scripts/build_probabilities.py \
 API integrations are intentionally out of scope for the public core.
 
 If you fetch data from an API, do it before using the framework, then export the result into the standard options table described in `docs/data-contracts.md`.
-

@@ -79,7 +79,7 @@ Recommended normalized signal fields:
 
 ## Quality Gates
 
-Do not use a source until these questions are answered:
+Use a source after these questions are answered:
 
 - Is the market definition identical to the contest question?
 - Is it a direct market or a proxy?

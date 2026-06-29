@@ -31,7 +31,7 @@ Use these diagnostics before trusting a recommendation:
 
 ## Risk-Capped Portfolio Logic
 
-A risk-capped portfolio does not mean "play safe everywhere".
+A risk-capped portfolio controls exposure while preserving upside.
 
 It means:
 
