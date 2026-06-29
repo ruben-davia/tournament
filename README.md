@@ -1,34 +1,10 @@
 # Prediction Tournament Strategy Framework
 
-A reusable framework for choosing portfolios in prediction tournaments.
+A reusable framework for choosing portfolios in prediction tournaments. It is designed for contests where many players submit picks, payouts depend on leaderboard rank, and the right strategy depends on both probabilities and opponent behavior.
 
-The examples are football-oriented. The method applies to any point-based prediction contest.
+The framework combines scoring rules, outcome probabilities, field modeling, expert signals, and payout structure. It simulates tournaments, compares strategy portfolios, and measures rank distributions under different assumptions.
 
-Use it to simulate a contest, model opponents, compare strategies, and choose the portfolio that fits the payout objective.
-
-It is built for tournaments where:
-
-- many players submit picks
-- payouts depend on leaderboard rank
-- the best decision depends on what other players are likely to do
-
-It uses:
-
-- scoring rules
-- outcome probabilities
-- opponent behavior
-- expert signals
-- payout structure
-
-It produces:
-
-- simulated tournaments
-- rank distributions
-- strategy comparisons
-- stress tests
-- risk-capped portfolios
-
-Strategies can be ranked for paid places, top X, top 1, expected payout, or controlled risk.
+The examples are football-oriented. The method applies to any point-based prediction contest where the objective is paid places, top X, top 1, expected payout, or controlled risk.
 
 ## Monte Carlo Tournament Simulation
 
