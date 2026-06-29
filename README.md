@@ -1,20 +1,39 @@
 # Prediction Tournament Strategy Framework
 
-This repo helps choose picks in a prediction tournament where the goal is not only to be right, but to beat the leaderboard. It models the contest rules, the probability of each outcome, how other players are likely to pick, and the payout structure. Then it runs Monte Carlo simulations to compare portfolios and avoid strategies that win rarely but fail too often.
+Choose picks for a prediction tournament.
 
-In practice, you use it to answer:
+The goal is not only to be right. The goal is to beat the leaderboard under the payout rules.
 
-> Given this tournament and this payout table, which strategy gives me the best chance to finish where it matters?
+This framework helps you:
 
-## Tournament Simulation
+- model the tournament rules
+- estimate outcome probabilities
+- estimate what other players will pick
+- run Monte Carlo simulations
+- compare strategies by rank distribution
+- avoid strategies that win rarely but fail too often
 
-The framework simulates the tournament many times. In each simulation it samples outcomes, scores your portfolio, scores simulated opponents, ranks the leaderboard, and records where you finish.
+Main question:
 
-The GIF below shows the same rank distribution replayed through tournament rounds. More probability mass on the left means a better chance of finishing near the top.
+> Which portfolio gives me the best chance to finish where the payout matters?
+
+## Monte Carlo Simulation
+
+Each simulation:
+
+- samples tournament outcomes
+- scores your portfolio
+- scores simulated opponents
+- ranks the leaderboard
+- records your final rank
+
+The GIF shows rank distributions through tournament rounds.
+
+More mass on the left = better chance of finishing near the top.
 
 ![Rank distribution through tournament rounds](docs/assets/readme-rank-distribution-tournament-rounds.gif)
 
-Regenerate the README charts with:
+Regenerate charts:
 
 ```bash
 python scripts/generate_readme_charts.py
@@ -22,25 +41,25 @@ python scripts/generate_readme_charts.py
 
 ## Pipeline
 
-1. **Define the tournament**: questions, matches, scoring, bonuses, multipliers, paid places.
-2. **Build probabilities**: market odds, prediction markets, model probabilities, manual assumptions.
-3. **Model the field**: estimate what other players will pick, including popular picks and anti-crowd opportunities.
-4. **Add expert signals**: injuries, lineups, tactical notes, and other reviewed information.
-5. **Run Monte Carlo**: simulate outcomes, opponents, scores, ranks, and payouts.
-6. **Use backward logic when live**: lock known results, simulate remaining rounds, and value decisions from future leaderboard states.
-7. **Choose by objective**: paid places, top 1, top X, expected payout, or risk-controlled survival.
+1. **Tournament**: questions, matches, scoring, bonuses, paid places.
+2. **Probabilities**: market odds, model probabilities, manual assumptions.
+3. **Field**: what other players are likely to pick.
+4. **Expert signals**: injuries, lineups, tactical notes.
+5. **Monte Carlo**: outcomes, opponents, scores, ranks, payouts.
+6. **Backward logic**: lock known results, value future decisions.
+7. **Objective**: paid places, top 1, top X, payout, risk.
 
 ## Example Output
 
-A recommendation is judged by its rank distribution, not only by expected points.
+A strategy is judged by rank distribution.
 
 ![Recommended portfolio final rank distribution](docs/assets/readme-final-rank-distribution-recommended.png)
 
-Different objectives produce different portfolios. A top-1 strategy can be too fragile for a paid-place payout. A safer portfolio can be better when the payout rewards top X.
+Compare strategies:
 
 ![Final rank distribution by strategy](docs/assets/readme-final-rank-distribution-by-strategy.png)
 
-The same portfolio should also be tested under different assumptions about the truth model and the field. This is where model risk becomes visible.
+Stress-test assumptions:
 
 ![Final rank distribution by scenario](docs/assets/readme-final-rank-distribution-by-scenario.png)
 
@@ -77,47 +96,11 @@ print(result.recommended_portfolio)
 - `field_probability`
 - `points_if_hit`
 
-## What You Bring
+## AI Skillset
 
-You provide normalized inputs. The repo does not include private scrapes, player names, raw market snapshots, or tournament-specific runs.
+This repo is meant to be used with an AI agent and a human bettor.
 
-Useful inputs:
-
-- contest rules and payout structure
-- option-level probabilities
-- estimated field popularity
-- expert or qualitative signals
-- current standings for live contests
-
-## Repo Layout
-
-| Path | Purpose |
-| --- | --- |
-| `prediction_framework/` | reusable Python framework |
-| `examples/basic_football_pool/` | small runnable example |
-| `scripts/` | pipeline commands and README chart generation |
-| `docs/` | method notes, data contracts, adaptation guides |
-| `ai_skills/` | operational playbooks for AI agents |
-| `apps/` | lightweight Streamlit dashboards |
-| `tests/` | public tests |
-
-## Key Modules
-
-| Need | Public code |
-| --- | --- |
-| Build probabilities | `build_probability_table`, `build_source_probability_table` |
-| Compare sources | `compare_source_probabilities` |
-| Apply expert signals | `audit_expert_signals`, `apply_expert_signals` |
-| Estimate the field | `estimate_field_distribution`, `field_behavior_weights` |
-| Generate portfolios | `build_strategy_portfolios` |
-| Simulate leaderboard | `simulate_leaderboard` |
-| Rank strategies | `run_betting_tournament_strategy`, `rank_risk_frontier` |
-| Risk control | `add_pick_risk_flags`, `build_risk_capped_portfolio` |
-| Live/backward value | `fit_backward_value_model` |
-
-## AI Agent Use
-
-Use [ai_skills/README.md](ai_skills/README.md) when an AI agent is guiding a bettor through the process:
+The agent helps structure the work:
 
 - understand the tournament
 - source market data
@@ -126,6 +109,15 @@ Use [ai_skills/README.md](ai_skills/README.md) when an AI agent is guiding a bet
 - run simulations
 - build risk-capped portfolios
 - adapt the method to another contest
+
+The human keeps judgment on:
+
+- assumptions
+- data quality
+- expert signals
+- final risk appetite
+
+Start with [ai_skills/README.md](ai_skills/README.md).
 
 ## Install
 
