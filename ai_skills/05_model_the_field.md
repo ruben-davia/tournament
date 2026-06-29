@@ -4,6 +4,17 @@
 
 You need to estimate what other contest players will pick.
 
+## Code To Use
+
+- `estimate_field_distribution(...)`
+- `add_value_diagnostics(...)`
+
+## Required Inputs
+
+- options with `truth_probability`
+- observed ownership or popularity hints when available
+- event ids and option ids
+
 ## Method
 
 1. If public picks exist, aggregate observed ownership by event and option.
@@ -25,10 +36,6 @@ You need to estimate what other contest players will pick.
    - visibility-biased
 6. Never use field probability as truth probability.
 
-## Code To Use
-
-- `estimate_field_distribution(...)`
-
 ## Output
 
 Table with:
@@ -38,6 +45,12 @@ Table with:
 - `field_probability`
 - `field_source`
 - `field_scenario`
+
+## Stop If
+
+- field ownership includes the target player
+- observed ownership and modeled popularity are mixed without labels
+- field probabilities cannot be normalized by event
 
 ## Checks
 

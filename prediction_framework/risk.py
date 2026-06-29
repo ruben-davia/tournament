@@ -117,7 +117,13 @@ def rank_risk_frontier(
     concentration_col: str = "single_match_concentration",
     tolerance: float = 0.01,
 ) -> pd.DataFrame:
-    """Rank near-optimal strategies using paid-place safety then upside/risk."""
+    """Use after simulation to choose among near-optimal strategies.
+
+    The frontier first keeps strategies within `tolerance` of the best
+    paid-place probability, then ranks them by top-1 upside and risk penalties.
+    Pass a strategy summary table with `p_paid` and `p_top_1`; missing regret
+    or concentration columns default to zero.
+    """
 
     table = _as_frame(summary).copy()
     if table.empty:

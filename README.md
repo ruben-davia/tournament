@@ -44,6 +44,23 @@ rules + probabilities + field + signals + payout
                   -> ranked strategy portfolios
 ```
 
+## Use The Right Tool
+
+Most workflows start with probabilities, then field modeling, then simulation. Use the smallest function that answers the current question.
+
+| Need | Use |
+| --- | --- |
+| I have odds or raw probabilities | `build_probability_table(...)` |
+| I have multiple sources | `build_source_probability_table(...)` |
+| I have expert signals | `audit_expert_signals(...)`, then `apply_expert_signals(...)` |
+| I need opponent behavior | `estimate_field_distribution(...)` |
+| I need leaderboard distributions | `simulate_leaderboard(...)` |
+| I want the best portfolio end-to-end | `run_betting_tournament_strategy(...)` |
+| I want risk-controlled picks | `build_risk_capped_portfolio(...)`, then `rank_risk_frontier(...)` |
+| I am mid-tournament | `fit_backward_value_model(...)` |
+
+See [docs/function-map.md](docs/function-map.md) for required columns, outputs, and when to avoid each function.
+
 ## Modeling Other Players
 
 The **field model** estimates ownership: how often other players choose each pick. This is useful because leaderboard value depends on being correct **and** being positioned well against the crowd.

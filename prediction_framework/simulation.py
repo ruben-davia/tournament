@@ -30,9 +30,16 @@ def simulate_leaderboard(
     paid_places: int | None = None,
     seed: int = 42,
 ) -> LeaderboardSimulation:
-    """Simulate a leaderboard for candidate strategies.
+    """Use when you need rank distributions for candidate portfolios.
 
-    This public simulator uses an option-hit scoring abstraction: a pick earns
+    Required option columns are `event_id`, `option_id`, `truth_probability`,
+    and `field_probability`; `points_if_hit` is optional and defaults to 1.
+    Pass `candidate_picks` when you already have portfolios. Leave it empty to
+    compare built-in favorite, contrarian, and balanced baselines.
+
+    Returns a `LeaderboardSimulation` with strategy summary metrics, simulated
+    picks, rank distribution buckets, and metadata including seed and paid
+    places. This public simulator uses an option-hit abstraction: a pick earns
     `points_if_hit` when its option is sampled as the event truth.
     """
 

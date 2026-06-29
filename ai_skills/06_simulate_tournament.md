@@ -4,6 +4,19 @@
 
 You need to compare strategies by leaderboard outcome.
 
+## Code To Use
+
+- `simulate_leaderboard(...)` for full simulation output
+- `rank_strategies(...)` for summary only
+- `run_betting_tournament_strategy(...)` for the public end-to-end workflow
+- `fit_backward_value_model(...)` when the tournament is live and state matters
+
+## Required Inputs
+
+- options with `truth_probability`, `field_probability`, and points
+- candidate portfolios or strategy families
+- number of opponents, paid places, simulations, and seed
+
 ## Method
 
 1. Load truth probabilities.
@@ -18,13 +31,7 @@ You need to compare strategies by leaderboard outcome.
 7. Compare truth and field scenarios.
 8. Rank by paid-place probability first when payout has top X, then top-1 upside and risk.
 
-## Code To Use
-
-- `simulate_leaderboard(..., paid_places=X)`
-- `rank_strategies(...)`
-- `rank_risk_frontier(...)`
-
-## Output Metrics
+## Output
 
 - `p_paid`
 - `p_top_1`
@@ -32,6 +39,12 @@ You need to compare strategies by leaderboard outcome.
 - `mean_rank`
 - `mean_points`
 - scenario comparison
+
+## Stop If
+
+- paid places do not match the payout table
+- candidate picks omit required events
+- known live results are not locked before adaptive simulation
 
 ## Checks
 

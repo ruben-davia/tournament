@@ -4,6 +4,17 @@
 
 Markets may miss injuries, lineups, rotations, tactics, motivation, or recent news.
 
+## Code To Use
+
+- `audit_expert_signals(...)`
+- `apply_expert_signals(...)`
+
+## Required Inputs
+
+- reviewed or reviewable sources
+- event ids that match the options table
+- signal target, direction, confidence, and source URL
+
 ## Method
 
 1. Build a research queue from high-uncertainty matches first.
@@ -29,11 +40,6 @@ Use these targets:
 - `high_score`
 - exact `option_id` when known
 
-## Code To Use
-
-- `audit_expert_signals(...)`
-- `apply_expert_signals(...)`
-
 ## Required Columns
 
 - `event_id`
@@ -48,3 +54,9 @@ Use these targets:
 ## Output
 
 Reviewed signal table plus an audit showing which signals are safe to use.
+
+## Stop If
+
+- source is stale or untrusted
+- signal is narrative but not actionable
+- target cannot be mapped to an option or outcome bucket

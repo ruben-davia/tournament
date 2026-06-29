@@ -50,10 +50,14 @@ def run_betting_tournament_strategy(
     n_opponents: int = 100,
     seed: int = 42,
 ) -> BettingTournamentResult:
-    """Run the public end-to-end strategy comparison for a betting tournament.
+    """Use when you want the full public strategy workflow in one call.
 
-    Inputs are already-normalized option rows. Use the lower-level source,
-    expert-signal, and field-model modules before calling this function.
+    Input rows should already contain normalized `truth_probability` and
+    `field_probability` values. The function builds named strategy portfolios,
+    simulates leaderboard outcomes, ranks the risk frontier, and returns the
+    recommended portfolio plus all comparison tables. Use lower-level helpers
+    first when you still need source blending, expert-signal adjustment, or
+    field estimation.
     """
 
     table = _as_frame(options).copy()

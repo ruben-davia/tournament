@@ -107,6 +107,12 @@ def score_prediction(
 
 
 def outsider_bonus_from_odds(home_odds: float, away_odds: float) -> OutsiderBonus:
+    """Infer simple outsider and draw bonuses from home/away decimal odds.
+
+    Use this helper when a football scoring rule gives extra points for calling
+    the less likely team or a draw. Equal or invalid odds return no bonus.
+    """
+
     if home_odds <= 0 or away_odds <= 0 or home_odds == away_odds:
         return OutsiderBonus(outsider_side=None, bonus_outsider=0, bonus_draw=0)
 
@@ -186,4 +192,3 @@ def _validate_score(*scores: int) -> None:
 
 def _round_half_up(value: float) -> int:
     return math.floor(value + 0.5)
-

@@ -4,6 +4,23 @@
 
 Someone wants to reuse the framework for another contest.
 
+## Code To Use
+
+Use the full pipeline:
+
+- `build_probability_table(...)` or `build_source_probability_table(...)`
+- `estimate_field_distribution(...)`
+- `simulate_leaderboard(...)` or `run_betting_tournament_strategy(...)`
+- `build_risk_capped_portfolio(...)` when risk control matters
+
+## Required Inputs
+
+- contest rules
+- scoring and payout objective
+- option table
+- truth probabilities or market inputs
+- field model assumptions
+
 ## Method
 
 1. Use Skill 01 to map rules and payout.
@@ -31,3 +48,9 @@ Keep examples anonymous:
 - data contract
 - README note explaining objective
 - tests proving scoring, probability normalization, field normalization, and reproducible simulation
+
+## Stop If
+
+- private data would need to be committed
+- tournament-specific names leak into generic framework code
+- no public example can run without external data

@@ -4,6 +4,18 @@
 
 The user needs picks that can win or finish paid without taking uncontrolled risk.
 
+## Code To Use
+
+- `add_pick_risk_flags(...)`
+- `build_risk_capped_portfolio(...)`
+- `rank_risk_frontier(...)`
+
+## Required Inputs
+
+- strategy summary with paid/top-1 metrics for frontier ranking
+- options with truth probability, field probability, points, and optional expert support
+- objective: paid places, top 1, catch-up, or protect lead
+
 ## Method
 
 1. Start from the objective: paid places, top 1, catch-up, or protect lead.
@@ -19,12 +31,6 @@ The user needs picks that can win or finish paid without taking uncontrolled ris
 7. Compare risk-capped portfolio to baseline EV.
 8. Choose from a near-optimal frontier across many simulations.
 
-## Code To Use
-
-- `add_pick_risk_flags(...)`
-- `build_risk_capped_portfolio(...)`
-- `rank_risk_frontier(...)`
-
 ## Output
 
 - selected portfolio
@@ -32,6 +38,12 @@ The user needs picks that can win or finish paid without taking uncontrolled ris
 - risk flags
 - comparison against favorite/EV baseline
 - remaining risks
+
+## Stop If
+
+- objective is unclear
+- every candidate is below the minimum probability floor
+- recommendation depends on one fragile assumption
 
 ## Hard Rule
 

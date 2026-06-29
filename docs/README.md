@@ -3,6 +3,7 @@
 | Section | Contents |
 | --- | --- |
 | `architecture.md` | General method: truth model, field model, scoring, simulation, and strategy selection. |
+| `function-map.md` | Which public function to use for each user or agent need. |
 | `quickstart.md` | Minimal commands for running the example and your own data. |
 | `adapting-a-new-tournament.md` | Checklist for adapting another contest. |
 | `data-contracts.md` | Required and recommended table columns. |

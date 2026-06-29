@@ -4,6 +4,17 @@
 
 You receive a new contest, rules PDF, website, or user explanation.
 
+## Code To Use
+
+No framework code yet. This skill creates the inputs that later functions need.
+
+## Required Inputs
+
+- contest rules or user explanation
+- payout structure or leaderboard target
+- lock timing for picks
+- scoring rules and tie-breaks
+
 ## Method
 
 1. Identify contest type: match scores, special questions, bracket, player awards, or mixed.
@@ -22,6 +33,12 @@ Produce:
 - `scoring_items`
 - `payout_objective`
 - `open_questions`
+
+## Stop If
+
+- lock timing is unknown
+- payout objective is unclear
+- scoring cannot be written as deterministic rules
 
 ## Checks
 

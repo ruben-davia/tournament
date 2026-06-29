@@ -5,6 +5,7 @@ import unittest
 import pandas as pd
 
 from prediction_framework import (
+    add_value_diagnostics,
     apply_expert_signals,
     build_probability_table,
     build_risk_capped_portfolio,
@@ -40,6 +41,13 @@ class FrameworkPipelineTest(unittest.TestCase):
 
         sums = field.groupby("event_id")["field_probability"].sum()
         self.assertTrue(((sums - 1.0).abs() < 1e-12).all())
+
+    def test_value_diagnostics_public_export(self):
+        field = estimate_field_distribution(build_probability_table(self.sample_options()))
+        diagnostics = add_value_diagnostics(field)
+
+        self.assertIn("expected_points", diagnostics.columns)
+        self.assertIn("contrarian_value", diagnostics.columns)
 
     def test_simulation_is_reproducible(self):
         field = estimate_field_distribution(build_probability_table(self.sample_options()))

@@ -1,6 +1,7 @@
 """Reusable tools for football prediction contests."""
 
 from prediction_framework.backward import BackwardValueModel, fit_backward_value_model
+from prediction_framework.diagnostics import add_value_diagnostics
 from prediction_framework.field_model import estimate_field_distribution
 from prediction_framework.expert_signals import apply_expert_signals, audit_expert_signals
 from prediction_framework.probabilities import build_probability_table
@@ -29,6 +30,7 @@ __all__ = [
     "MatchContext",
     "OutsiderBonus",
     "ScoreBreakdown",
+    "add_value_diagnostics",
     "add_pick_risk_flags",
     "apply_expert_signals",
     "audit_expert_signals",

@@ -22,11 +22,12 @@ def fit_backward_value_model(
     feature_cols: tuple[str, ...] = ("current_rank", "points_gap", "doublettes_left"),
     terminal_value_col: str = "terminal_value",
 ) -> BackwardValueModel:
-    """Fit simple Monte Carlo continuation values from final outcomes backward.
+    """Use for live tournaments where remaining picks depend on current state.
 
-    This is a lightweight public version of the advanced idea used in adaptive
-    contests: simulate many futures, observe final utility, then estimate what
-    each intermediate state is worth before choosing the current action.
+    Input rows are Monte Carlo rollouts with a checkpoint, state features such
+    as current rank or points gap, and a terminal utility/value. The model fits
+    continuation values backward so an agent can compare actions from the
+    current leaderboard state instead of treating the tournament as static.
     """
 
     table = rollouts.copy() if isinstance(rollouts, pd.DataFrame) else pd.DataFrame(list(rollouts))

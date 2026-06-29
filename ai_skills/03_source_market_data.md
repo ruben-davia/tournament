@@ -4,6 +4,20 @@
 
 You need probabilities for matches or tournament questions.
 
+## Code To Use
+
+- `build_probability_table(...)` for one clean source
+- `build_source_probability_table(...)` for multiple sources
+- `compare_source_probabilities(...)` for source disagreement
+
+## Required Inputs
+
+- one row per event option
+- `event_id`
+- `option_id`
+- source odds or source probabilities
+- source quality and direct/proxy label when multiple sources exist
+
 ## Method
 
 1. For each contest option, find the most direct market.
@@ -14,12 +28,6 @@ You need probabilities for matches or tournament questions.
 6. Label each source: `direct`, `proxy`, or `definition_check_required`.
 7. Compare sources when both exist.
 8. Treat disagreement as uncertainty, not as automatic value.
-
-## Code To Use
-
-- `build_source_probability_table(...)`
-- `compare_source_probabilities(...)`
-- `build_probability_table(...)` for simple single-source inputs
 
 ## Required Columns
 
@@ -41,3 +49,9 @@ You need probabilities for matches or tournament questions.
 ## Output
 
 A clean table with `truth_probability`, source count, source list, and uncertainty notes.
+
+## Stop If
+
+- market definition does not match the contest option
+- proxy mapping is undocumented
+- probabilities cannot be normalized within event

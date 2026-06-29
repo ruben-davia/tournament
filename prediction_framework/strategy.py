@@ -13,7 +13,11 @@ def rank_strategies(
     candidate_picks: pd.DataFrame | Iterable[dict[str, Any]] | None = None,
     **simulation_kwargs: Any,
 ) -> pd.DataFrame:
-    """Return strategy summaries sorted by leaderboard upside."""
+    """Use when you only need the ranked strategy summary table.
+
+    This is a convenience wrapper around `simulate_leaderboard(...)`. Use
+    `simulate_leaderboard(...)` directly when you also need picks, metadata, or
+    rank-distribution rows.
+    """
 
     return simulate_leaderboard(options, candidate_picks, **simulation_kwargs).summary
-

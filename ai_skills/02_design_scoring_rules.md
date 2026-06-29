@@ -4,6 +4,17 @@
 
 Rules are known and must become code/config.
 
+## Code To Use
+
+- `score_prediction(...)` for football exact-score rules
+- `outsider_bonus_from_odds(...)` when outsider/draw bonuses come from odds
+
+## Required Inputs
+
+- scoring table or rules text
+- match context when bonuses depend on teams
+- examples of hit, partial hit, and miss
+
 ## Method
 
 1. Define each event type: exact score, 1X2, outright, numeric total, custom question.
@@ -31,6 +42,12 @@ Produce:
 - scoring examples
 - unit tests
 - notes for ambiguous rules
+
+## Stop If
+
+- extra-time versus 90-minute rules are ambiguous
+- multiplier timing is unknown
+- bonuses depend on data that is missing
 
 ## Common Errors
 
