@@ -1,9 +1,5 @@
 # Prediction Tournament Strategy Framework
 
-> AI-assisted football prediction contest framework for simulating tournaments, modeling opponents, and choosing risk-aware portfolios.
->
-> `monte-carlo` `prediction-contests` `football` `betting-strategy` `field-modeling` `risk-management` `ai-agents` `data-science`
-
 A reusable framework for choosing strategies in prediction tournaments.
 
 The examples are football-oriented, but the method applies to any point-based prediction contest.
