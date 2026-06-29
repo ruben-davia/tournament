@@ -12,6 +12,7 @@ import pandas as pd
 class LeaderboardSimulation:
     summary: pd.DataFrame
     picks: pd.DataFrame
+    rank_distribution: pd.DataFrame
     metadata: dict[str, Any]
 
 
@@ -26,6 +27,7 @@ def simulate_leaderboard(
     points_col: str = "points_if_hit",
     n_sims: int = 1000,
     n_opponents: int = 100,
+    paid_places: int | None = None,
     seed: int = 42,
 ) -> LeaderboardSimulation:
     """Simulate a leaderboard for candidate strategies.
@@ -45,6 +47,7 @@ def simulate_leaderboard(
     table[points_col] = pd.to_numeric(table[points_col], errors="coerce").fillna(1.0)
     events = list(dict.fromkeys(table[event_col].astype(str).tolist()))
     rng = np.random.default_rng(seed)
+    paid_cutoff = max(1, int(paid_places)) if paid_places is not None else max(1, int(np.ceil(n_opponents * 0.10)))
 
     event_options = {
         event: table[table[event_col].astype(str) == event].reset_index(drop=True)
@@ -63,6 +66,7 @@ def simulate_leaderboard(
 
     picks = _candidate_picks(table, candidate_picks, event_col, option_col)
     summary_rows = []
+    rank_rows = []
     for strategy, strategy_picks in picks.groupby("strategy", sort=False):
         our_scores = np.zeros(n_sims, dtype=float)
         for event, frame in event_options.items():
@@ -79,6 +83,7 @@ def simulate_leaderboard(
             our_scores += np.where(actual_idx == picked_idx, points, 0.0)
 
         ranks = 1 + (opponent_scores > our_scores[:, None]).sum(axis=1)
+        rank_rows.extend(_rank_distribution_rows(str(strategy), ranks))
         summary_rows.append(
             {
                 "strategy": strategy,
@@ -87,18 +92,20 @@ def simulate_leaderboard(
                 "p90_points": float(np.quantile(our_scores, 0.90)),
                 "mean_rank": float(ranks.mean()),
                 "p_top_1": float((ranks == 1).mean()),
+                "p_paid": float((ranks <= paid_cutoff).mean()),
                 "p_top_10pct": float((ranks <= max(1, int(np.ceil(n_opponents * 0.10)))).mean()),
             }
         )
 
     summary = pd.DataFrame(summary_rows).sort_values(
-        ["p_top_1", "p_top_10pct", "mean_points"],
-        ascending=[False, False, False],
+        ["p_paid", "p_top_1", "p_top_10pct", "mean_points"],
+        ascending=[False, False, False, False],
     )
     return LeaderboardSimulation(
         summary=summary.reset_index(drop=True),
         picks=picks.reset_index(drop=True),
-        metadata={"n_sims": n_sims, "n_opponents": n_opponents, "seed": seed, "events": events},
+        rank_distribution=pd.DataFrame(rank_rows),
+        metadata={"n_sims": n_sims, "n_opponents": n_opponents, "paid_places": paid_cutoff, "seed": seed, "events": events},
     )
 
 
@@ -142,3 +149,18 @@ def _sample_options(frame: pd.DataFrame, probability_col: str, size: int, rng: n
         probabilities = probabilities / total
     return rng.choice(len(frame), size=size, p=probabilities)
 
+
+def _rank_distribution_rows(strategy: str, ranks: np.ndarray) -> list[dict[str, Any]]:
+    buckets = [
+        ("1", ranks == 1),
+        ("2-5", (ranks >= 2) & (ranks <= 5)),
+        ("6-10", (ranks >= 6) & (ranks <= 10)),
+        ("11-25", (ranks >= 11) & (ranks <= 25)),
+        ("26-50", (ranks >= 26) & (ranks <= 50)),
+        ("51+", ranks >= 51),
+    ]
+    return [
+        {"strategy": strategy, "rank_bucket": bucket, "probability": float(mask.mean())}
+        for bucket, mask in buckets
+        if bool(mask.any())
+    ]

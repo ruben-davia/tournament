@@ -1,41 +1,31 @@
-# Skill: Understand Tournament
+# Skill 01: Understand Tournament
 
 ## Use When
 
-Use this when a user brings a new prediction contest and the rules/data are not yet structured.
+You receive a new contest, rules PDF, website, or user explanation.
 
-## Inputs Needed
+## Method
 
-- sport or contest type
-- number of participants
-- events/questions
-- allowed picks
-- scoring rules
-- prizes or target ranking
-- available probability sources
-
-## Questions To Ask
-
-- What does one row of a pick represent?
-- Are points all-or-nothing or partial credit?
-- Are there multipliers, bonus picks, or locked deadlines?
-- Is the goal expected points, winning the pool, or avoiding downside?
-
-## Steps
-
-1. Summarize the contest in plain language.
-2. Identify each event type.
-3. List required data tables.
-4. Flag unclear scoring rules.
-5. Decide whether the default framework abstractions are enough.
+1. Identify contest type: match scores, special questions, bracket, player awards, or mixed.
+2. List every decision the player must submit.
+3. Find lock timing: all-at-once, matchday-by-matchday, or before each match.
+4. Extract payout objective: winner-take-all, top X paid, points-only, or rank prize table.
+5. Extract scoring: exact score, result, goal difference, outsider/draw bonus, multipliers, tie-breaks.
+6. Mark unknowns. Do not infer rules silently.
 
 ## Output
 
-A short tournament brief with events, scoring, available data, missing inputs, and recommended next skill.
+Produce:
 
-## Common Mistakes
+- `contest_summary`
+- `decision_calendar`
+- `scoring_items`
+- `payout_objective`
+- `open_questions`
 
-- Treating market probability and field popularity as the same thing.
-- Starting simulation before scoring rules are explicit.
-- Ignoring the actual leaderboard objective.
+## Checks
 
+- Can the simulator know when each pick is locked?
+- Is top X defined from payout places?
+- Are bonuses deterministic from input data?
+- Are private/player-specific files excluded from public output?

@@ -28,10 +28,14 @@ examples/football_world_cup_2026/**
 !scripts/build_probabilities.py
 !scripts/build_field_model.py
 !scripts/run_strategy.py
+!scripts/generate_readme_charts.py
 !ai_skills/
 !ai_skills/**
 !docs/
 !docs/**
+!docs/assets/
+!docs/assets/readme-*.png
+!docs/assets/readme-*.gif
 !tests/
 !tests/test_framework.py
 !tests/test_scoring.py

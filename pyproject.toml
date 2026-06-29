@@ -18,6 +18,11 @@ dependencies = [
 dev = [
     "pytest>=8",
 ]
+docs = [
+    "matplotlib>=3.9",
+    "pillow>=10",
+    "seaborn>=0.13",
+]
 
 [tool.setuptools]
 packages = ["prediction_framework"]

@@ -1,38 +1,39 @@
-# Skill: Design Scoring Rules
+# Skill 02: Design Scoring Rules
 
 ## Use When
 
-Use this when contest rules need to be converted into deterministic scoring logic.
+Rules are known and must become code/config.
 
-## Inputs Needed
+## Method
 
-- full written rules
-- examples of scored picks
-- bonus and multiplier rules
-- tie-breaker rules, if any
+1. Define each event type: exact score, 1X2, outright, numeric total, custom question.
+2. Define points for each hit condition.
+3. Define bonus rules separately from base points.
+4. Define multipliers as a strategy choice, not as truth probability.
+5. Write a minimal scoring table with examples.
+6. Add tests for edge cases before running strategy.
 
-## Questions To Ask
+## Required Tests
 
-- What earns full points?
-- What earns partial points?
-- Can a wrong result still earn points?
-- Are bonuses added before or after multipliers?
-- Are there per-player limits on multipliers?
-
-## Steps
-
-1. Convert the rules into cases.
-2. Write one example per case.
-3. Map cases to framework scoring helpers or note custom logic needed.
-4. Define test cases before simulation.
+- exact score
+- correct result but wrong score
+- correct goal difference if relevant
+- draw bonus
+- outsider bonus
+- multiplier/doublette
+- miss gives zero or expected fallback
 
 ## Output
 
-A scoring spec with examples and expected point totals.
+Produce:
 
-## Common Mistakes
+- scoring config
+- scoring examples
+- unit tests
+- notes for ambiguous rules
 
-- Encoding rules only in prose.
-- Forgetting edge cases such as draws or tied odds.
-- Applying multipliers in the wrong order.
+## Common Errors
 
+- mixing 90-minute and extra-time results
+- treating a bonus as probability
+- hardcoding one tournament name in generic scoring code

@@ -18,9 +18,9 @@ Create one row per event option.
 
 Examples:
 
-- match exact score: `France 2-0`
-- match result: `France win`
-- tournament question: `Brazil champion`
+- match exact score: `Team A 2-0`
+- match result: `Team A win`
+- tournament question: `Team B champion`
 
 Each option needs a stable `event_id` and `option_id`.
 
@@ -66,4 +66,3 @@ A good recommendation should say:
 - why it has value
 - what can go wrong
 - whether it is safe, balanced, or contrarian
-

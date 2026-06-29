@@ -1,43 +1,131 @@
-# Football Prediction Framework
+# Prediction Tournament Strategy Framework
 
-Reusable Python framework for football prediction contests.
+This repo helps choose picks in a prediction tournament where the goal is not only to be right, but to beat the leaderboard. It models the contest rules, the probability of each outcome, how other players are likely to pick, and the payout structure. Then it runs Monte Carlo simulations to compare portfolios and avoid strategies that win rarely but fail too often.
 
-It helps answer a practical question:
+In practice, you use it to answer:
 
-> In a prediction pool, what should I pick if I care about beating the leaderboard, not only picking the most likely result?
+> Given this tournament and this payout table, which strategy gives me the best chance to finish where it matters?
 
-The framework is built for two audiences:
+## Tournament Simulation
 
-- **Bettors and pool players** who want a structured way to compare picks.
-- **Data people** who want reusable building blocks for probabilities, field modelling, simulations, and strategy ranking.
+The framework simulates the tournament many times. In each simulation it samples outcomes, scores your portfolio, scores simulated opponents, ranks the leaderboard, and records where you finish.
 
-## What It Does
+The GIF below shows the same rank distribution replayed through tournament rounds. More probability mass on the left means a better chance of finishing near the top.
 
-Most prediction contests have two separate problems:
+![Rank distribution through tournament rounds](docs/assets/readme-rank-distribution-tournament-rounds.gif)
 
-1. **Truth**: what is likely to happen?
-2. **Field behavior**: what are other people likely to pick?
+Regenerate the README charts with:
 
-The best contest pick is not always the most likely outcome. A less popular pick can be better if it still has enough probability and gives you more leaderboard upside.
-
-This framework turns that idea into a simple pipeline:
-
-```text
-rules -> probabilities -> field model -> leaderboard simulation -> strategy ranking
+```bash
+python scripts/generate_readme_charts.py
 ```
+
+## Pipeline
+
+1. **Define the tournament**: questions, matches, scoring, bonuses, multipliers, paid places.
+2. **Build probabilities**: market odds, prediction markets, model probabilities, manual assumptions.
+3. **Model the field**: estimate what other players will pick, including popular picks and anti-crowd opportunities.
+4. **Add expert signals**: injuries, lineups, tactical notes, and other reviewed information.
+5. **Run Monte Carlo**: simulate outcomes, opponents, scores, ranks, and payouts.
+6. **Use backward logic when live**: lock known results, simulate remaining rounds, and value decisions from future leaderboard states.
+7. **Choose by objective**: paid places, top 1, top X, expected payout, or risk-controlled survival.
+
+## Example Output
+
+A recommendation is judged by its rank distribution, not only by expected points.
+
+![Recommended portfolio final rank distribution](docs/assets/readme-final-rank-distribution-recommended.png)
+
+Different objectives produce different portfolios. A top-1 strategy can be too fragile for a paid-place payout. A safer portfolio can be better when the payout rewards top X.
+
+![Final rank distribution by strategy](docs/assets/readme-final-rank-distribution-by-strategy.png)
+
+The same portfolio should also be tested under different assumptions about the truth model and the field. This is where model risk becomes visible.
+
+![Final rank distribution by scenario](docs/assets/readme-final-rank-distribution-by-scenario.png)
 
 ## Quickstart
 
-Run the included example with fake public data:
+Run the public example:
 
 ```bash
 python examples/basic_football_pool/run_example.py
 ```
 
-Expected output:
+Minimal Python use:
 
-- ranked strategies such as `favorite`, `balanced`, and `contrarian`
-- options with truth probability, estimated field probability, and contrarian value
+```python
+from prediction_framework import run_betting_tournament_strategy
+
+result = run_betting_tournament_strategy(
+    options,
+    paid_places=10,
+    n_sims=10000,
+    n_opponents=125,
+    seed=42,
+)
+
+print(result.strategy_summary)
+print(result.recommended_portfolio)
+```
+
+`options` is one row per possible pick:
+
+- `event_id`
+- `option_id`
+- `truth_probability`
+- `field_probability`
+- `points_if_hit`
+
+## What You Bring
+
+You provide normalized inputs. The repo does not include private scrapes, player names, raw market snapshots, or tournament-specific runs.
+
+Useful inputs:
+
+- contest rules and payout structure
+- option-level probabilities
+- estimated field popularity
+- expert or qualitative signals
+- current standings for live contests
+
+## Repo Layout
+
+| Path | Purpose |
+| --- | --- |
+| `prediction_framework/` | reusable Python framework |
+| `examples/basic_football_pool/` | small runnable example |
+| `scripts/` | pipeline commands and README chart generation |
+| `docs/` | method notes, data contracts, adaptation guides |
+| `ai_skills/` | operational playbooks for AI agents |
+| `apps/` | lightweight Streamlit dashboards |
+| `tests/` | public tests |
+
+## Key Modules
+
+| Need | Public code |
+| --- | --- |
+| Build probabilities | `build_probability_table`, `build_source_probability_table` |
+| Compare sources | `compare_source_probabilities` |
+| Apply expert signals | `audit_expert_signals`, `apply_expert_signals` |
+| Estimate the field | `estimate_field_distribution`, `field_behavior_weights` |
+| Generate portfolios | `build_strategy_portfolios` |
+| Simulate leaderboard | `simulate_leaderboard` |
+| Rank strategies | `run_betting_tournament_strategy`, `rank_risk_frontier` |
+| Risk control | `add_pick_risk_flags`, `build_risk_capped_portfolio` |
+| Live/backward value | `fit_backward_value_model` |
+
+## AI Agent Use
+
+Use [ai_skills/README.md](ai_skills/README.md) when an AI agent is guiding a bettor through the process:
+
+- understand the tournament
+- source market data
+- collect expert signals
+- model the field
+- run simulations
+- build risk-capped portfolios
+- adapt the method to another contest
 
 ## Install
 
@@ -47,71 +135,14 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-## Minimal Python Usage
-
-```python
-import pandas as pd
-from prediction_framework import build_probability_table, estimate_field_distribution, rank_strategies
-
-options = pd.DataFrame([
-    {"event_id": "match_1", "option_id": "home_1_0", "label": "Home 1-0", "decimal_odds": 6.5, "points_if_hit": 6},
-    {"event_id": "match_1", "option_id": "draw_1_1", "label": "Draw 1-1", "decimal_odds": 7.5, "points_if_hit": 6},
-    {"event_id": "match_1", "option_id": "away_1_0", "label": "Away 1-0", "decimal_odds": 11.0, "points_if_hit": 9},
-])
-probabilities = build_probability_table(options, odds_col="decimal_odds")
-field = estimate_field_distribution(probabilities)
-summary = rank_strategies(field, n_sims=5000, n_opponents=100, seed=42)
-
-print(summary)
-```
-
-## Expected Input Shape
-
-The quickest path is a CSV like this:
-
-| column | meaning |
-| --- | --- |
-| `event_id` | Match or contest question id. |
-| `option_id` | Stable id for a pick option. |
-| `label` | Human-readable option name. |
-| `decimal_odds` | Market-like decimal odds, used to build truth probabilities. |
-| `popularity_hint` | Optional crowd/popularity signal. |
-| `points_if_hit` | Points earned if the option is correct. |
-
-See [docs/data-contracts.md](docs/data-contracts.md) for the full contract and [docs/market-inputs.md](docs/market-inputs.md) for probability inputs.
-
-## Repository Layout
-
-| Path | Purpose |
-| --- | --- |
-| `prediction_framework/` | Generic reusable library. |
-| `examples/basic_football_pool/` | Small runnable example with anonymous in-memory data. |
-| `scripts/` | CLI pipeline commands. |
-| `apps/` | Lightweight Streamlit dashboards. |
-| `ai_skills/` | Agent playbooks that explain when to use each part of the framework. |
-| `docs/` | Architecture, quickstart, data contracts, publishing notes. |
-| `tests/` | Public unit and smoke tests. |
-
-## CLI Pipeline
-
-All public scripts accept `--config`, `--input-dir`, `--output-dir`, `--seed`, and `--n-sims`.
+For README chart generation:
 
 ```bash
-python scripts/build_probabilities.py --input-dir data/raw --output-dir data/work
-python scripts/build_field_model.py --input-dir data/work --output-dir data/work
-python scripts/run_strategy.py --input-dir data/work --output-dir data/out --n-sims 5000
+pip install -e ".[docs]"
 ```
 
-## Dashboards
+## Tests
 
 ```bash
-streamlit run apps/strategy_dashboard.py
-streamlit run apps/market_dashboard.py
-streamlit run apps/field_model_dashboard.py
+python -m unittest tests.test_framework tests.test_scoring
 ```
-
-## Adapting It To Another Tournament
-
-Start with [docs/adapting-a-new-tournament.md](docs/adapting-a-new-tournament.md).
-
-If you use an AI agent, start with [ai_skills/README.md](ai_skills/README.md). Those files are written as operating playbooks: when to use the skill, what inputs to ask for, what to produce, and common mistakes.
