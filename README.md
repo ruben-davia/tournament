@@ -2,64 +2,79 @@
 
 Choose picks for a prediction tournament.
 
-The goal is not only to be right. The goal is to beat the leaderboard under the payout rules.
+The goal is not only to be right. The goal is to finish where the payout matters.
 
-This framework helps you:
+| What we model | Why it matters |
+| --- | --- |
+| Tournament rules | Points, bonuses, multipliers, paid places |
+| Outcome probabilities | What can happen |
+| Other players | What the field is likely to pick |
+| Monte Carlo runs | How often each strategy reaches each rank |
+| Risk | Avoid strategies that win rarely but fail too often |
 
-- model the tournament rules
-- estimate outcome probabilities
-- estimate what other players will pick
-- run Monte Carlo simulations
-- compare strategies by rank distribution
-- avoid strategies that win rarely but fail too often
+## Monte Carlo Tournament Run
 
-Main question:
+After running the simulations, the framework evaluates an optimized strategy across tournament rounds.
 
-> Which portfolio gives me the best chance to finish where the payout matters?
+| Step | Meaning |
+| --- | --- |
+| Sample outcomes | One possible future tournament |
+| Score portfolios | Your picks and opponent picks |
+| Rank leaderboard | Your simulated finish |
+| Repeat many times | Distribution of possible ranks |
 
-## Monte Carlo Simulation
-
-Each simulation:
-
-- samples tournament outcomes
-- scores your portfolio
-- scores simulated opponents
-- ranks the leaderboard
-- records your final rank
-
-The GIF shows rank distributions through tournament rounds.
-
-More mass on the left = better chance of finishing near the top.
+More mass on the left means a better chance of finishing near the top.
 
 ![Rank distribution through tournament rounds](docs/assets/readme-rank-distribution-tournament-rounds.gif)
 
-Regenerate charts:
-
-```bash
-python scripts/generate_readme_charts.py
-```
-
 ## Pipeline
 
-1. **Tournament**: questions, matches, scoring, bonuses, paid places.
-2. **Probabilities**: market odds, model probabilities, manual assumptions.
-3. **Field**: what other players are likely to pick.
-4. **Expert signals**: injuries, lineups, tactical notes.
-5. **Monte Carlo**: outcomes, opponents, scores, ranks, payouts.
-6. **Backward logic**: lock known results, value future decisions.
-7. **Objective**: paid places, top 1, top X, payout, risk.
+| Step | Purpose | Output |
+| --- | --- | --- |
+| Tournament | Define questions, scoring, payouts | Contest config |
+| Probabilities | Estimate what can happen | Truth model |
+| Field | Estimate what others pick | Opponent model |
+| Expert signals | Add reviewed football context | Adjusted assumptions |
+| Monte Carlo | Simulate futures and ranks | Rank distributions |
+| Backward logic | Revalue choices during live rounds | Adaptive strategy |
+| Objective | Match strategy to payout | Final portfolio |
 
-## Example Output
+## Modeling Other Players
 
-A strategy is judged by rank distribution.
+The field model estimates what the rest of the leaderboard is likely to do.
 
-![Recommended portfolio final rank distribution](docs/assets/readme-final-rank-distribution-recommended.png)
+| Signal | Use |
+| --- | --- |
+| Popular picks | Detect crowded outcomes |
+| Market favorites | Estimate default behavior |
+| Common scores | Model repeated score patterns |
+| Expert narratives | Catch public bias or real information |
+| Current standings | Adapt when the contest is live |
 
-Compare strategies:
+## Choosing A Strategy
+
+The best strategy depends on the payout.
+
+| Objective | Strategy shape |
+| --- | --- |
+| Paid places | More stable rank distribution |
+| Top 1 | More upside and more variance |
+| Top X | Balance ceiling and survival |
+| Risk control | Avoid fragile portfolios |
 
 ![Final rank distribution by strategy](docs/assets/readme-final-rank-distribution-by-strategy.png)
 
-Stress-test assumptions:
+## Stress Testing
+
+A portfolio should survive bad assumptions.
+
+| Scenario | What it checks |
+| --- | --- |
+| Base | Normal model run |
+| Crowd chalk | Field overplays favorites |
+| Noisy inputs | Probabilities are less reliable |
+| Field learns | Opponents become sharper |
+| Sharp field | Harder leaderboard |
 
 ![Final rank distribution by scenario](docs/assets/readme-final-rank-distribution-by-scenario.png)
 
@@ -98,43 +113,23 @@ print(result.recommended_portfolio)
 
 ## AI Skillset
 
-This repo is meant to be used with an AI agent and a human bettor.
+This repo is meant to be used by an AI agent with a human bettor.
 
-The agent helps structure the work:
-
-- understand the tournament
-- source market data
-- collect expert signals
-- model the field
-- run simulations
-- build risk-capped portfolios
-- adapt the method to another contest
-
-The human keeps judgment on:
-
-- assumptions
-- data quality
-- expert signals
-- final risk appetite
+| Agent does | Human decides |
+| --- | --- |
+| Structures the tournament | Final assumptions |
+| Sources market data | Data quality |
+| Collects expert signals | Signal trust |
+| Builds field model | Risk appetite |
+| Runs simulations | Final strategy |
 
 Start with [ai_skills/README.md](ai_skills/README.md).
 
-## Install
+## Install / Tests
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-```
-
-For README chart generation:
-
-```bash
-pip install -e ".[docs]"
-```
-
-## Tests
-
-```bash
 python -m unittest tests.test_framework tests.test_scoring
 ```

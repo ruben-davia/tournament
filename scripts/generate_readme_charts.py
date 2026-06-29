@@ -109,7 +109,7 @@ def configure_plot_style() -> None:
             "xtick.major.width": 0.8,
             "ytick.major.width": 0.8,
             "figure.dpi": 160,
-            "savefig.dpi": 220,
+            "savefig.dpi": 160,
         }
     )
     sns.set_theme(
@@ -243,7 +243,7 @@ def plot_rank_distribution(
     smoothing_sigma: float = 2.5,
     x_label: str = "Final rank",
 ) -> None:
-    fig, ax = plt.subplots(figsize=(9.6, 5.4))
+    fig, ax = plt.subplots(figsize=(8.8, 4.95))
     fig.subplots_adjust(left=0.10, right=0.97, top=0.88, bottom=0.18)
 
     ax.axvspan(1, 6, color="#dcefe7", alpha=0.9, lw=0)
