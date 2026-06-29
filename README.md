@@ -32,7 +32,7 @@ Strategies can be ranked for paid places, top X, top 1, expected payout, or cont
 
 ## Monte Carlo Tournament Simulation
 
-Monte Carlo creates many possible versions of the tournament. Each simulation samples outcomes, opponent picks, scores, ranks, and payout.
+Monte Carlo estimates where a portfolio can finish on the leaderboard. It creates many possible versions of the tournament and samples outcomes, opponent picks, scores, ranks, and payout.
 
 The GIF is a simulated output for an optimized strategy. Each frame shows the rank probability mass after a tournament round. More mass on the left means a better chance to finish near the top.
 
@@ -67,7 +67,7 @@ Tournament value comes from probability, ownership, scoring, and payout. A usefu
 
 ## Modeling Other Players
 
-The field model is the part that asks: "What will everyone else do?"
+The field model estimates what other players are likely to pick.
 
 It uses signals such as:
 
@@ -82,7 +82,7 @@ A correct crowded pick can add little separation. A lower-owned pick can be valu
 
 ## Choosing A Strategy
 
-Different payouts need different strategies.
+Strategy selection maps the payout objective to the right risk profile.
 
 - Paid places: prioritize survival and stable top-X probability.
 - Top 1: accept more variance for more upside.
@@ -93,9 +93,9 @@ Different payouts need different strategies.
 
 ## Stress Testing
 
-Use multiple assumption sets.
+Stress testing checks whether the portfolio remains strong when assumptions move.
 
-The same strategy should be tested against different assumptions:
+Compare scenarios where:
 
 - the field is more chalky than expected
 - input probabilities are noisy
