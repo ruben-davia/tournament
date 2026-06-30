@@ -101,12 +101,12 @@ The chart shows the candidate space after Monte Carlo evaluation. The x-axis is 
 
 In live play, the loop runs again after each matchday. Known results are locked, remaining matches are re-valued, and the selected family can change.
 
-| Update | Locked state | Selected family |
-| --- | --- | --- |
-| J1 | pre-tournament | early weighted baseline |
-| J2 | J1 locked | btts-over controlled |
-| J3 | J1-J2 locked | risk-capped |
-| J4 | J1-J3 locked | field leverage + risk-capped review |
+| Update | Locked state   | Selected family                     |
+| ------ | -------------- | ----------------------------------- |
+| J1     | pre-tournament | early weighted baseline             |
+| J2     | J1 locked      | btts-over controlled                |
+| J3     | J1-J2 locked   | risk-capped                         |
+| J4     | J1-J3 locked   | field leverage + risk-capped review |
 
 ## Stress Testing
 
@@ -130,20 +130,24 @@ The red ring marks the selected strategy.
 
 ![Strategy frontier](docs/assets/readme-strategy-frontier-expected-payout.png)
 
+## What We Picked For WW2026
+
+[![WW2026 picks through J4](docs/assets/readme-ww2026-picks-through-j4.svg)]
+
 ## Use The Right Tool
 
 Most workflows start with probabilities, then field modeling, then simulation. Use the smallest function that answers the current question.
 
-| Need | Use |
-| --- | --- |
-| I have odds or raw probabilities | `build_probability_table(...)` |
-| I have multiple sources | `build_source_probability_table(...)` |
-| I have expert signals | `audit_expert_signals(...)`, then `apply_expert_signals(...)` |
-| I need opponent behavior | `estimate_field_distribution(...)` |
-| I need leaderboard distributions | `simulate_leaderboard(...)` |
-| I want the best portfolio end-to-end | `run_betting_tournament_strategy(...)` |
-| I want risk-controlled picks | `build_risk_capped_portfolio(...)`, then `rank_risk_frontier(...)` |
-| I am mid-tournament | `fit_backward_value_model(...)` |
+| Need                                 | Use                                                                |
+| ------------------------------------ | ------------------------------------------------------------------ |
+| I have odds or raw probabilities     | `build_probability_table(...)`                                     |
+| I have multiple sources              | `build_source_probability_table(...)`                              |
+| I have expert signals                | `audit_expert_signals(...)`, then `apply_expert_signals(...)`      |
+| I need opponent behavior             | `estimate_field_distribution(...)`                                 |
+| I need leaderboard distributions     | `simulate_leaderboard(...)`                                        |
+| I want the best portfolio end-to-end | `run_betting_tournament_strategy(...)`                             |
+| I want risk-controlled picks         | `build_risk_capped_portfolio(...)`, then `rank_risk_frontier(...)` |
+| I am mid-tournament                  | `fit_backward_value_model(...)`                                    |
 
 See [docs/function-map.md](docs/function-map.md) for required columns, outputs, and when to avoid each function.
 
@@ -204,10 +208,6 @@ The human keeps judgment on:
 - final risk appetite
 
 Start with [ai_skills/README.md](ai_skills/README.md).
-
-## What We Picked For WW2026
-
-[![WW2026 picks through J4](docs/assets/readme-ww2026-picks-through-j4.svg)](docs/ww2026-picks-through-j4.html)
 
 ## Install / Tests
 

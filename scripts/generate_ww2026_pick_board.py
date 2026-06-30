@@ -183,6 +183,7 @@ def main() -> int:
 
 def load_day(day: int) -> list[dict[str, object]]:
     rows = []
+    score_lookup = load_score_lookup()
     path = RAW_DIR / f"journee_{day}.json"
     if path.exists():
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -212,13 +213,33 @@ def load_day(day: int) -> list[dict[str, object]]:
                 "away": away,
                 "home_pick": home_pick,
                 "away_pick": away_pick,
-                "score_home": None,
-                "score_away": None,
+                "score_home": score_lookup.get((home, away), (None, None))[0],
+                "score_away": score_lookup.get((home, away), (None, None))[1],
                 "doublette": doublette,
             }
             for index, (home, away, home_pick, away_pick, doublette) in enumerate(FALLBACK_PICKS_BY_DAY[day])
         ]
     return sorted(rows, key=lambda row: int(row["match_id"]))
+
+
+def load_score_lookup() -> dict[tuple[str, str], tuple[int | None, int | None]]:
+    path = RAW_DIR / "coupe_du_monde.json"
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    lookup = {}
+    for match in payload.get("matchs", []):
+        home = match.get("home")
+        away = match.get("away")
+        if not home or not away:
+            continue
+        score_home = match.get("score_home")
+        score_away = match.get("score_away")
+        lookup[(home, away)] = (
+            int(score_home) if score_home is not None else None,
+            int(score_away) if score_away is not None else None,
+        )
+    return lookup
 
 
 def label(row: dict[str, object]) -> str:
@@ -265,7 +286,7 @@ def render_bracket_svg(rows: list[dict[str, object]]) -> str:
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<style>",
-        ".bg{fill:#202229}.title{fill:#f4f6fb;font:800 32px Inter,Arial,sans-serif}.sub{fill:#a7abb5;font:650 16px Inter,Arial,sans-serif}.round{fill:#f4f6fb;font:800 20px Inter,Arial,sans-serif}.card{fill:#2d2f39;stroke:#555966;stroke-width:1.4}.exact{fill:#213b2a;stroke:#42b883}.good{fill:#213941;stroke:#4aa3bf}.miss{fill:#402527;stroke:#bd4d53}.pending{fill:#2d2f39;stroke:#555966}.group{fill:#2a2d36;stroke:#4d535d;stroke-width:1.25}.meta{fill:#a7abb5;font:800 13px Inter,Arial,sans-serif}.groupName{fill:#f4f6fb;font:800 14px Inter,Arial,sans-serif}.groupPick{fill:#dfe2ea;font:750 11.5px Inter,Arial,sans-serif}.team{fill:#f3f4f8;font:800 17px Inter,Arial,sans-serif}.score{fill:#f3f4f8;font:900 20px Inter,Arial,sans-serif}.line{stroke:#555966;stroke-width:1.5;fill:none}.softLine{stroke:#464b55;stroke-width:1.2;fill:none}.winner{fill:#354038;stroke:#5d755f;stroke-width:1.5}.legend{fill:#a7abb5;font:750 13px Inter,Arial,sans-serif}.dotExact{fill:#42b883}.dotGood{fill:#4aa3bf}.dotMiss{fill:#bd4d53}.dotPending{fill:#777d8a}.pickBgExact{fill:#244a32}.pickBgGood{fill:#234451}.pickBgMiss{fill:#4a292c}.pickBgPending{fill:#343743}",
+        ".bg{fill:#202229}.title{fill:#f4f6fb;font:800 32px Inter,Arial,sans-serif}.sub{fill:#a7abb5;font:650 16px Inter,Arial,sans-serif}.round{fill:#f4f6fb;font:800 20px Inter,Arial,sans-serif}.card{fill:#2d2f39;stroke:#555966;stroke-width:1.4}.exact{fill:#213b2a;stroke:#42b883}.good{fill:#213941;stroke:#4aa3bf}.miss{fill:#402527;stroke:#bd4d53}.pending{fill:#303442;stroke:#8a91a1}.group{fill:#2a2d36;stroke:#4d535d;stroke-width:1.25}.meta{fill:#a7abb5;font:800 13px Inter,Arial,sans-serif}.groupName{fill:#f4f6fb;font:800 14px Inter,Arial,sans-serif}.groupPick{fill:#dfe2ea;font:750 11.5px Inter,Arial,sans-serif}.team{fill:#f3f4f8;font:800 17px Inter,Arial,sans-serif}.score{fill:#f3f4f8;font:900 20px Inter,Arial,sans-serif}.line{stroke:#555966;stroke-width:1.5;fill:none}.softLine{stroke:#464b55;stroke-width:1.2;fill:none}.winner{fill:#354038;stroke:#5d755f;stroke-width:1.5}.legend{fill:#a7abb5;font:750 13px Inter,Arial,sans-serif}.dotExact{fill:#42b883}.dotGood{fill:#4aa3bf}.dotMiss{fill:#bd4d53}.dotPending{fill:#8a91a1}.statusExact{fill:#42b883}.statusGood{fill:#4aa3bf}.statusMiss{fill:#bd4d53}.statusPending{fill:#8a91a1}.statusText{fill:#f4f6fb;font:800 10px Inter,Arial,sans-serif}.pickBgExact{fill:#244a32}.pickBgGood{fill:#234451}.pickBgMiss{fill:#4a292c}.pickBgPending{fill:#343743}",
         "</style>",
         '<rect class="bg" x="0" y="0" width="100%" height="100%"/>',
         '<text class="title" x="52" y="52">WW2026 bracket picks</text>',
@@ -371,7 +392,11 @@ def draw_connector(parts: list[str], start_x: float, top_y: float, bottom_y: flo
 def draw_pick_card(parts: list[str], x: float, y: float, w: float, h: float, row: dict[str, object], meta: str) -> None:
     home = str(row["home"])
     away = str(row["away"])
-    parts.append(f'<rect class="card {pick_status(row)}" x="{x}" y="{y}" width="{w}" height="{h}" rx="14"/>')
+    status = pick_status(row)
+    parts.append(f'<rect class="card {status}" x="{x}" y="{y}" width="{w}" height="{h}" rx="14"/>')
+    parts.append(f'<rect class="status{status.title()}" x="{x}" y="{y}" width="8" height="{h}" rx="4"/>')
+    parts.append(f'<rect class="status{status.title()}" x="{x + w - 74}" y="{y + 10}" width="58" height="18" rx="9"/>')
+    parts.append(f'<text class="statusText" x="{x + w - 45}" y="{y + 23}" text-anchor="middle">{status_label(status)}</text>')
     parts.append(f'<text class="meta" x="{x + 16}" y="{y + 20}">{html.escape(meta)}</text>')
     parts.append(f'<text class="team" x="{x + 16}" y="{y + 47}">{html.escape(team_label(home))}</text>')
     parts.append(f'<text class="score" x="{x + w - 34}" y="{y + 47}" text-anchor="middle">{row["home_pick"]}</text>')
@@ -461,6 +486,15 @@ def pick_bg_class(row: dict[str, object]) -> str:
         "miss": "pickBgMiss",
         "pending": "pickBgPending",
     }[pick_status(row)]
+
+
+def status_label(status: str) -> str:
+    return {
+        "exact": "EXACT",
+        "good": "RESULT",
+        "miss": "MISS",
+        "pending": "PENDING",
+    }[status]
 
 
 def render_html(picks_by_day: dict[int, list[dict[str, object]]]) -> str:
