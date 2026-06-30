@@ -29,6 +29,7 @@ examples/football_world_cup_2026/**
 !scripts/build_field_model.py
 !scripts/run_strategy.py
 !scripts/generate_readme_charts.py
+!scripts/generate_ww2026_pick_board.py
 !ai_skills/
 !ai_skills/**
 !docs/
@@ -38,6 +39,7 @@ docs/assets/*
 !docs/assets/readme-rank-distribution-tournament-rounds.gif
 !docs/assets/readme-strategy-candidate-cloud.png
 !docs/assets/readme-strategy-frontier-expected-payout.png
+!docs/assets/readme-ww2026-picks-through-j4.svg
 !tests/
 !tests/test_framework.py
 !tests/test_scoring.py

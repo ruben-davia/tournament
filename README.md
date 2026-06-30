@@ -99,6 +99,15 @@ The chart shows the candidate space after Monte Carlo evaluation. The x-axis is 
 
 ![Monte Carlo candidate strategies](docs/assets/readme-strategy-candidate-cloud.png)
 
+In live play, the loop runs again after each matchday. Known results are locked, remaining matches are re-valued, and the selected family can change.
+
+| Update | Locked state | Selected family |
+| --- | --- | --- |
+| J1 | pre-tournament | early weighted baseline |
+| J2 | J1 locked | btts-over controlled |
+| J3 | J1-J2 locked | risk-capped |
+| J4 | J1-J3 locked | field leverage + risk-capped review |
+
 ## Stress Testing
 
 Stress testing checks whether strong portfolios remain strong when assumptions move. It compares field behavior, probability noise, sharper opponents, expert conflicts, and downside-sensitive payout curves.
@@ -195,6 +204,10 @@ The human keeps judgment on:
 - final risk appetite
 
 Start with [ai_skills/README.md](ai_skills/README.md).
+
+## What We Picked For WW2026
+
+[![WW2026 picks through J4](docs/assets/readme-ww2026-picks-through-j4.svg)](docs/ww2026-picks-through-j4.html)
 
 ## Install / Tests
 
