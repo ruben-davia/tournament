@@ -2,35 +2,56 @@
 
 This repo helps you win prediction tournaments by simulating outcomes, opponents, and payout-aware strategies.
 
-It is built for contests where the objective is a **leaderboard rank**: finish first, reach the paid places, maximize expected payout, or control downside. The examples are **football-oriented**. The method applies to any point-based prediction contest.
+A prediction tournament pays a **gain by final rank**: rank 1 can pay a lot, paid places can pay smaller amounts, and ranks outside the payout zone usually pay zero. The examples are **football-oriented**. The method applies to any point-based prediction contest.
 
 ## What It Does
 
 The framework turns a tournament into a strategy problem. It models **what can happen**, **what opponents are likely to pick**, and **how each portfolio scores**.
 
 - **Simulate the tournament**: outcomes, opponent picks, scores, leaderboard, payout.
-- **Compare portfolios**: safe, top-1, top-X, contrarian, risk-capped.
-- **Update live decisions**: lock known results and revalue remaining picks with backward strategy.
+- **Compare portfolios**: safe, top-1, top 5%, contrarian, risk-capped.
+- **Update live decisions**: lock known results and value remaining picks with backward strategy.
 
 The chart below shows a simulated optimized strategy through tournament rounds. Each frame is a **rank probability mass**. More mass on the left means a better chance to finish near the top.
 
 ![Rank distribution through tournament rounds](docs/assets/readme-rank-distribution-tournament-rounds.gif)
 
-## Objective Function
+## Payout Objective
 
-A portfolio is selected from the gain attached to final rank:
+A tournament pays a different share of the pot depending on final rank. For example:
+
+- rank 1: **30%**
+- rank 2: **20%**
+- rank 3: **15%**
+- ranks 4-5: **10%** each
+- ranks 6-10: **3%** each
+- rank 11+: **0%**
+
+The paid ranks sum to **100%** of the pot. The objective is to choose a portfolio that gives the best expected gain under this payout curve.
+
+In mathematical terms, the tournament defines a gain function over final rank:
 
 ```math
-s^* = \arg\max_{s \in S} \mathbb{E}[G(R_s)]
+G(r) =
+\begin{cases}
+g_r & \text{if } 1 \le r \le K \\
+0 & \text{if } r > K
+\end{cases}
 ```
 
-`s` is a portfolio. `R_s` is its simulated final rank. `G(rank)` is the payout or utility of that rank.
+The target portfolio maximizes expected gain:
 
-If the payout rewards **top 5**, the objective targets top-5 probability. If the contest is **winner-take-all**, the objective targets rank 1. If downside matters, `G` can include a risk penalty.
+```math
+s^* = \arg\max_{s \in S} \sum_{r=1}^{K} \mathbb{P}(R_s = r) \cdot g_r
+```
+
+`s` is a portfolio, `R_s` is its simulated final rank, and `g_r` is the gain paid at rank `r`.
+
+In practice, the objective mixes **expected payout**, **top 5% probability**, **top-1 upside**, downside control, and expert alignment. The weights depend on the payout curve.
 
 ## Modeling The Tournament
 
-The tournament model separates the pieces that drive leaderboard value. This keeps probability, popularity, scoring, and payout from being mixed together.
+The tournament model separates the pieces that drive leaderboard value. Each option has its own probability, expected ownership, and score value.
 
 - **Scoring rules** define how picks become points.
 - **Truth probabilities** estimate what is likely to happen.
@@ -39,10 +60,66 @@ The tournament model separates the pieces that drive leaderboard value. This kee
 - **Leaderboard simulation** combines everything into rank and payout distributions.
 
 ```text
-rules + probabilities + field + signals + payout
-                  -> simulated leaderboard
-                  -> ranked strategy portfolios
+event_id: match_1
+option_id: team_a_1_0
+truth_probability: 0.18
+field_probability: 0.27
+points_if_hit: 6
 ```
+
+The simulator samples true outcomes from `truth_probability`, samples opponent picks from `field_probability`, scores every portfolio, ranks the leaderboard, and records payout.
+
+## Modeling Other Players
+
+To model a tournament, the framework also models how the other players bet. The **field model** estimates ownership: how often each option is picked by the crowd.
+
+Concretely, the public model starts from market probabilities: players tend to follow favorites, overweight common scores, react to visible teams, and avoid some lower-owned outcomes. When public picks or historical contests exist, ownership is calibrated from observed data.
+
+This produces `field_probability`, which is separate from `truth_probability`. That separation is what lets the simulator measure crowd leverage.
+
+## Generating Strategy Portfolios
+
+Strategy generation creates a large set of candidate portfolios. In practice, the framework mixes base strategy families with different weights and constraints, then tests every candidate with Monte Carlo simulation.
+
+Each candidate is a portfolio. Each portfolio is scored across simulated tournament worlds: true outcomes, opponent picks, leaderboard ranks, and payout.
+
+The families below are **ingredients**. A generated portfolio can combine several of them. The color in the chart shows the dominant ingredient, so multiple green dots are multiple portfolio variants led by the same idea.
+
+- **Baseline**: market favorite or central probability.
+- **EV**: high expected points.
+- **Anti-crowd**: probability with field leverage.
+- **Top-1**: higher upside and more variance.
+- **Paid-place**: stable top 5% probability.
+- **Expert-aligned**: reviewed signals influence candidate weights.
+- **Risk-capped**: avoids fragile low-probability paths.
+
+For live tournaments, backward strategy locks the current state and values remaining decisions from simulated futures. The public `fit_backward_value_model(...)` function fits continuation values from rollout states with a simple least-squares model.
+
+The chart shows the candidate space after Monte Carlo evaluation. The x-axis is **P(top 5%)**, the y-axis is **expected payout**, and larger points have higher top-1 upside.
+
+![Monte Carlo candidate strategies](docs/assets/readme-strategy-candidate-cloud.png)
+
+## Stress Testing
+
+Stress testing checks whether strong portfolios remain strong when assumptions move. It compares field behavior, probability noise, sharper opponents, expert conflicts, and downside-sensitive payout curves.
+
+The useful output is a frontier of strategies that stay competitive across plausible worlds.
+
+## Selecting The Strategy
+
+After Monte Carlo simulation, the framework keeps the strategies in a near-optimal band, then chooses the one that survives stress tests with lower downside and better expert alignment.
+
+The selection rule is:
+
+1. keep strategies close to the best expected payout or top 5% probability
+2. compare stress-test loss across those strategies
+3. penalize fragile downside
+4. prefer stronger expert alignment
+5. pick the least risky strategy among the best candidates
+
+The red ring marks the selected strategy.
+
+![Strategy frontier](docs/assets/readme-strategy-frontier-expected-payout.png)
 
 ## Use The Right Tool
 
@@ -60,33 +137,6 @@ Most workflows start with probabilities, then field modeling, then simulation. U
 | I am mid-tournament | `fit_backward_value_model(...)` |
 
 See [docs/function-map.md](docs/function-map.md) for required columns, outputs, and when to avoid each function.
-
-## Modeling Other Players
-
-The **field model** estimates ownership: how often other players choose each pick. This is useful because leaderboard value depends on being correct **and** being positioned well against the crowd.
-
-It can use **market favorites**, **popular score patterns**, **expert narratives**, **current standings**, and **remaining risk appetite**. A correct crowded pick can add little separation. A lower-owned pick can be valuable when its probability is still strong.
-
-## Choosing A Strategy
-
-Strategy selection maps the payout objective to the right risk profile. The same tournament can lead to different portfolios depending on what gets paid.
-
-- **Paid places**: prioritize survival and stable top-X probability.
-- **Top 1**: accept more variance for more upside.
-- **Top X**: balance ceiling and downside.
-- **Risk control**: avoid fragile portfolios with narrow win paths.
-
-![Final rank distribution by strategy](docs/assets/readme-final-rank-distribution-by-strategy.png)
-
-## Stress Testing
-
-Stress testing checks whether the portfolio remains strong when assumptions move. It measures robustness across scenario changes and expected value.
-
-Compare scenarios where the **field is chalkier**, probabilities are **noisier**, opponents become **sharper**, expert signals conflict with markets, or downside becomes more expensive.
-
-The goal is to keep strategies that still have good rank distributions across plausible worlds.
-
-![Final rank distribution by scenario](docs/assets/readme-final-rank-distribution-by-scenario.png)
 
 ## Quickstart
 

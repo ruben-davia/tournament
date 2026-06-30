@@ -11,6 +11,20 @@ from PIL import Image
 
 
 PALETTE = ["#1b7f5d", "#2f5f9f", "#b6632c", "#7a4fa3", "#c94f5d", "#555f6d"]
+FRONTIER_LABEL_OFFSETS = {
+    "risk_capped_expert": (8, -18),
+    "paid_place_balanced": (8, 0),
+    "selective_leverage": (8, -2),
+    "max_ev": (8, -2),
+    "top1_attack": (8, -2),
+    "field_leverage": (8, -2),
+    "expert_controlled": (8, -2),
+    "draw_balanced": (8, -2),
+    "anti_crowd": (8, -2),
+    "market_central": (8, -2),
+    "chalk_survival": (8, -2),
+    "contrarian_tail": (8, -2),
+}
 ROUND_LABELS = [
     "After group round 1",
     "After group round 2",
@@ -94,6 +108,43 @@ def main() -> None:
         output_dir / "readme-final-rank-distribution-by-scenario.png",
         x_max=args.n_opponents + 1,
         smoothing_sigma=args.smoothing_sigma,
+    )
+
+    candidates = strategy_frontier_data()
+    plot_strategy_frontier(
+        candidates,
+        output_dir / "readme-strategy-frontier-expected-payout.png",
+        y_col="expected_payout",
+        y_label="Expected payout",
+        title="Strategy frontier - expected payout vs stress loss",
+    )
+    plot_strategy_frontier(
+        candidates,
+        output_dir / "readme-strategy-frontier-topx.png",
+        y_col="p_paid",
+        y_label="P(top 5%)",
+        title="Strategy frontier - top-5% probability vs stress loss",
+        percent_y=True,
+    )
+    plot_top10_strategy_ranking(
+        candidates,
+        output_dir / "readme-top10-strategy-ranking-expected-payout.png",
+        value_col="expected_payout",
+        value_label="Expected payout",
+        title="Top strategy candidates by expected payout",
+    )
+    plot_top10_strategy_ranking(
+        candidates,
+        output_dir / "readme-top10-strategy-ranking-topx.png",
+        value_col="p_paid",
+        value_label="P(top 5%)",
+        title="Top strategy candidates by top-5% probability",
+        percent_x=True,
+    )
+    cloud = strategy_candidate_cloud(140, rng)
+    plot_strategy_candidate_cloud(
+        cloud,
+        output_dir / "readme-strategy-candidate-cloud.png",
     )
 
 
@@ -266,6 +317,234 @@ def plot_rank_distribution(
     if show_legend and len(labels) > 1:
         ax.legend(frameon=False, loc="upper right", ncol=1, handlelength=2.2)
 
+    fig.savefig(output_path, format="png", facecolor="white")
+    plt.close(fig)
+
+
+def strategy_frontier_data() -> list[dict[str, float | str | bool]]:
+    """Public synthetic frontier inspired by the strategy-selection workflow."""
+
+    return [
+        {"strategy": "risk_capped_expert", "family": "risk-capped", "expected_payout": 41.8, "p_paid": 0.334, "p_top1": 0.057, "stress_loss": 2.4, "expert_alignment": 0.88, "selected": True},
+        {"strategy": "paid_place_balanced", "family": "paid-place", "expected_payout": 42.1, "p_paid": 0.338, "p_top1": 0.050, "stress_loss": 4.7, "expert_alignment": 0.72, "selected": False},
+        {"strategy": "selective_leverage", "family": "leverage", "expected_payout": 43.0, "p_paid": 0.329, "p_top1": 0.071, "stress_loss": 7.9, "expert_alignment": 0.58, "selected": False},
+        {"strategy": "expert_controlled", "family": "expert", "expected_payout": 40.6, "p_paid": 0.326, "p_top1": 0.054, "stress_loss": 3.1, "expert_alignment": 0.91, "selected": False},
+        {"strategy": "max_ev", "family": "ev", "expected_payout": 42.6, "p_paid": 0.315, "p_top1": 0.066, "stress_loss": 8.8, "expert_alignment": 0.46, "selected": False},
+        {"strategy": "top1_attack", "family": "top-1", "expected_payout": 41.2, "p_paid": 0.286, "p_top1": 0.089, "stress_loss": 12.6, "expert_alignment": 0.41, "selected": False},
+        {"strategy": "anti_crowd", "family": "anti-crowd", "expected_payout": 39.5, "p_paid": 0.301, "p_top1": 0.073, "stress_loss": 10.8, "expert_alignment": 0.50, "selected": False},
+        {"strategy": "market_central", "family": "baseline", "expected_payout": 36.8, "p_paid": 0.292, "p_top1": 0.041, "stress_loss": 3.9, "expert_alignment": 0.66, "selected": False},
+        {"strategy": "field_leverage", "family": "leverage", "expected_payout": 40.9, "p_paid": 0.310, "p_top1": 0.076, "stress_loss": 9.4, "expert_alignment": 0.52, "selected": False},
+        {"strategy": "chalk_survival", "family": "survival", "expected_payout": 37.7, "p_paid": 0.318, "p_top1": 0.030, "stress_loss": 2.8, "expert_alignment": 0.70, "selected": False},
+        {"strategy": "contrarian_tail", "family": "tail", "expected_payout": 38.4, "p_paid": 0.252, "p_top1": 0.096, "stress_loss": 15.2, "expert_alignment": 0.33, "selected": False},
+        {"strategy": "draw_balanced", "family": "risk-capped", "expected_payout": 39.9, "p_paid": 0.322, "p_top1": 0.048, "stress_loss": 5.4, "expert_alignment": 0.79, "selected": False},
+    ]
+
+
+def strategy_candidate_cloud(n_candidates: int, rng: np.random.Generator) -> list[dict[str, float | str | bool]]:
+    families = [
+        ("baseline", 0.292, 0.041, 36.0),
+        ("ev", 0.315, 0.066, 41.5),
+        ("anti-crowd", 0.302, 0.073, 39.5),
+        ("top-1", 0.286, 0.089, 40.5),
+        ("paid-place", 0.334, 0.050, 41.8),
+        ("expert", 0.326, 0.054, 40.8),
+        ("risk-capped", 0.329, 0.052, 41.3),
+    ]
+    rows: list[dict[str, float | str | bool]] = []
+    for idx in range(n_candidates):
+        family, base_paid, base_top1, base_payout = families[idx % len(families)]
+        p_paid = float(np.clip(rng.normal(base_paid, 0.012), 0.22, 0.37))
+        p_top1 = float(np.clip(rng.normal(base_top1, 0.010), 0.015, 0.12))
+        expected_payout = float(
+            np.clip(
+                rng.normal(base_payout + 42.0 * (p_paid - base_paid) + 58.0 * (p_top1 - base_top1), 1.1),
+                33.0,
+                45.5,
+            )
+        )
+        rows.append(
+            {
+                "strategy": f"{family}_{idx:03d}",
+                "family": family,
+                "p_paid": p_paid,
+                "p_top1": p_top1,
+                "expected_payout": expected_payout,
+                "selected": False,
+            }
+        )
+    return rows
+
+
+def plot_strategy_frontier(
+    rows: list[dict[str, float | str | bool]],
+    output_path: Path,
+    *,
+    y_col: str,
+    y_label: str,
+    title: str,
+    percent_y: bool = False,
+) -> None:
+    fig, ax = plt.subplots(figsize=(8.8, 4.95))
+    fig.subplots_adjust(left=0.11, right=0.97, top=0.88, bottom=0.17)
+
+    x = np.array([float(row["stress_loss"]) for row in rows])
+    y = np.array([float(row[y_col]) for row in rows])
+    top1 = np.array([float(row["p_top1"]) for row in rows])
+    expert = np.array([float(row["expert_alignment"]) for row in rows])
+    sizes = 220 + 3200 * top1
+
+    scatter = ax.scatter(
+        x,
+        y,
+        s=sizes,
+        c=expert,
+        cmap="viridis",
+        alpha=0.86,
+        edgecolor="#263238",
+        linewidth=0.55,
+    )
+    selected = next(row for row in rows if bool(row["selected"]))
+    selected_x = float(selected["stress_loss"])
+    selected_y = float(selected[y_col])
+    ax.scatter(
+        [selected_x],
+        [selected_y],
+        s=560,
+        facecolors="none",
+        edgecolors="#c0392b",
+        linewidths=2.0,
+        zorder=4,
+    )
+
+    for row in rows:
+        strategy = str(row["strategy"])
+        offset = FRONTIER_LABEL_OFFSETS.get(strategy, (8, -2))
+        is_selected = bool(row["selected"])
+        ax.annotate(
+            f"SELECTED - {strategy.replace('_', ' ')}" if is_selected else strategy.replace("_", " "),
+            xy=(float(row["stress_loss"]), float(row[y_col])),
+            xytext=offset,
+            textcoords="offset points",
+            fontsize=9 if is_selected else 8,
+            fontweight="bold" if is_selected else "normal",
+            color="#c0392b" if is_selected else "#263238",
+            va="center",
+            bbox={"boxstyle": "round,pad=0.12", "fc": "white", "ec": "none", "alpha": 0.72},
+        )
+
+    ax.set_title(title, loc="left", fontsize=13, fontweight="bold", pad=10)
+    ax.set_xlabel("Stress loss")
+    ax.set_ylabel(y_label)
+    ax.set_xlim(float(x.min()) - 0.65, float(x.max()) + 2.2)
+    if percent_y:
+        ax.yaxis.set_major_formatter(mpl.ticker.PercentFormatter(1.0, decimals=0))
+    cbar = fig.colorbar(scatter, ax=ax, fraction=0.034, pad=0.02)
+    cbar.set_label("Expert alignment", rotation=90)
+    ax.grid(True, axis="both", alpha=0.75)
+    fig.savefig(output_path, format="png", facecolor="white")
+    plt.close(fig)
+
+
+def plot_top10_strategy_ranking(
+    rows: list[dict[str, float | str | bool]],
+    output_path: Path,
+    *,
+    value_col: str,
+    value_label: str,
+    title: str,
+    percent_x: bool = False,
+) -> None:
+    top_rows = sorted(rows, key=lambda row: float(row[value_col]), reverse=True)[:10]
+    labels = [str(row["strategy"]).replace("_", " ") for row in top_rows][::-1]
+    values = np.array([float(row[value_col]) for row in top_rows][::-1])
+    selected = [bool(row["selected"]) for row in top_rows][::-1]
+    colors = ["#1b7f5d" if flag else "#8fa3b5" for flag in selected]
+
+    fig, ax = plt.subplots(figsize=(8.8, 4.95))
+    fig.subplots_adjust(left=0.29, right=0.97, top=0.88, bottom=0.17)
+    ax.barh(labels, values, color=colors, alpha=0.92)
+    ax.set_xlim(0, float(values.max()) * 1.12)
+    ax.set_title(title, loc="left", fontsize=13, fontweight="bold", pad=10)
+    ax.set_xlabel(value_label)
+    ax.set_ylabel("")
+    if percent_x:
+        ax.xaxis.set_major_formatter(mpl.ticker.PercentFormatter(1.0, decimals=0))
+    for idx, (value, flag) in enumerate(zip(values, selected, strict=True)):
+        label = " (selected)" if flag else ""
+        shown = f"{100 * value:.1f}%{label}" if percent_x else f"{value:.1f}{label}"
+        ax.text(value, idx, f"  {shown}", va="center", fontsize=8, color="#263238")
+    ax.grid(True, axis="x", alpha=0.75)
+    ax.grid(False, axis="y")
+    fig.savefig(output_path, format="png", facecolor="white")
+    plt.close(fig)
+
+
+def plot_strategy_candidate_cloud(
+    rows: list[dict[str, float | str | bool]],
+    output_path: Path,
+) -> None:
+    family_colors = {
+        "baseline": "#8fa3b5",
+        "ev": "#2f5f9f",
+        "anti-crowd": "#7a4fa3",
+        "top-1": "#c94f5d",
+        "paid-place": "#1b7f5d",
+        "expert": "#e0b83f",
+        "risk-capped": "#2f9d76",
+    }
+    family_labels = {
+        "baseline": "baseline-led",
+        "ev": "ev-led",
+        "anti-crowd": "anti-crowd-led",
+        "top-1": "top-1-led",
+        "paid-place": "paid-place-led",
+        "expert": "expert-led",
+        "risk-capped": "risk-capped-led",
+    }
+    fig, ax = plt.subplots(figsize=(8.8, 4.95))
+    fig.subplots_adjust(left=0.10, right=0.97, top=0.88, bottom=0.25)
+    for family, color in family_colors.items():
+        group = [row for row in rows if row["family"] == family]
+        if not group:
+            continue
+        ax.scatter(
+            [float(row["p_paid"]) for row in group],
+            [float(row["expected_payout"]) for row in group],
+            s=[70 + 3100 * float(row["p_top1"]) for row in group],
+            color=color,
+            alpha=0.52,
+            edgecolor="#263238",
+            linewidth=0.25,
+            label=family_labels[family],
+        )
+    ax.axvline(0.305, color="#6f768a", linewidth=0.9, linestyle="--", alpha=0.55)
+    ax.axhline(41.0, color="#6f768a", linewidth=0.9, linestyle="--", alpha=0.55)
+    ax.text(
+        0.325,
+        44.7,
+        "strong candidates",
+        color="#464c55",
+        fontsize=8,
+        ha="center",
+        va="center",
+        bbox={"boxstyle": "round,pad=0.16", "fc": "white", "ec": "none", "alpha": 0.68},
+    )
+    ax.set_title("Monte Carlo candidate strategies", loc="left", fontsize=13, fontweight="bold", pad=10)
+    ax.set_xlabel("P(top 5%)")
+    ax.set_ylabel("Expected payout")
+    ax.xaxis.set_major_formatter(mpl.ticker.PercentFormatter(1.0, decimals=0))
+    ax.set_xlim(0.245, 0.365)
+    ax.set_ylim(32.5, 46.0)
+    ax.grid(True, axis="both", alpha=0.75)
+    ax.legend(
+        frameon=False,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.16),
+        ncol=4,
+        fontsize=8,
+        title="Dominant ingredient",
+        title_fontsize=8,
+    )
     fig.savefig(output_path, format="png", facecolor="white")
     plt.close(fig)
 
