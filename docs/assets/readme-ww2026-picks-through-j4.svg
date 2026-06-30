@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2600" height="1792" viewBox="0 0 2600 1792">
 <style>
-.bg{fill:#202229}.title{fill:#f4f6fb;font:800 32px Inter,Arial,sans-serif}.sub{fill:#a7abb5;font:650 16px Inter,Arial,sans-serif}.round{fill:#f4f6fb;font:800 20px Inter,Arial,sans-serif}.card{fill:#2d2f39;stroke:#555966;stroke-width:1.4}.group{fill:#2a2d36;stroke:#4d535d;stroke-width:1.25}.meta{fill:#a7abb5;font:800 13px Inter,Arial,sans-serif}.groupName{fill:#f4f6fb;font:800 14px Inter,Arial,sans-serif}.groupPick{fill:#dfe2ea;font:750 11.5px Inter,Arial,sans-serif}.team{fill:#f3f4f8;font:800 17px Inter,Arial,sans-serif}.score{fill:#f3f4f8;font:900 20px Inter,Arial,sans-serif}.line{stroke:#555966;stroke-width:1.5;fill:none}.softLine{stroke:#464b55;stroke-width:1.2;fill:none}.winner{fill:#354038;stroke:#5d755f;stroke-width:1.5}
+.bg{fill:#202229}.title{fill:#f4f6fb;font:800 32px Inter,Arial,sans-serif}.sub{fill:#a7abb5;font:650 16px Inter,Arial,sans-serif}.round{fill:#f4f6fb;font:800 20px Inter,Arial,sans-serif}.card{fill:#2d2f39;stroke:#555966;stroke-width:1.4}.exact{fill:#213b2a;stroke:#42b883}.good{fill:#213941;stroke:#4aa3bf}.miss{fill:#402527;stroke:#bd4d53}.pending{fill:#2d2f39;stroke:#555966}.group{fill:#2a2d36;stroke:#4d535d;stroke-width:1.25}.meta{fill:#a7abb5;font:800 13px Inter,Arial,sans-serif}.groupName{fill:#f4f6fb;font:800 14px Inter,Arial,sans-serif}.groupPick{fill:#dfe2ea;font:750 11.5px Inter,Arial,sans-serif}.team{fill:#f3f4f8;font:800 17px Inter,Arial,sans-serif}.score{fill:#f3f4f8;font:900 20px Inter,Arial,sans-serif}.line{stroke:#555966;stroke-width:1.5;fill:none}.softLine{stroke:#464b55;stroke-width:1.2;fill:none}.winner{fill:#354038;stroke:#5d755f;stroke-width:1.5}.legend{fill:#a7abb5;font:750 13px Inter,Arial,sans-serif}.dotExact{fill:#42b883}.dotGood{fill:#4aa3bf}.dotMiss{fill:#bd4d53}.dotPending{fill:#777d8a}.pickBgExact{fill:#244a32}.pickBgGood{fill:#234451}.pickBgMiss{fill:#4a292c}.pickBgPending{fill:#343743}
 </style>
 <rect class="bg" x="0" y="0" width="100%" height="100%"/>
 <text class="title" x="52" y="52">WW2026 bracket picks</text>
@@ -12,193 +12,269 @@
 <text class="round" x="1635" y="122">Semi-finals</text>
 <text class="round" x="1955" y="122">Final</text>
 <text class="round" x="2280" y="122">Winner</text>
+<circle class="dotExact" cx="1210" cy="80" r="6"/><text class="legend" x="1222" y="84">exact</text>
+<circle class="dotGood" cx="1280" cy="80" r="6"/><text class="legend" x="1292" y="84">result</text>
+<circle class="dotMiss" cx="1366" cy="80" r="6"/><text class="legend" x="1378" y="84">miss</text>
+<circle class="dotPending" cx="1430" cy="80" r="6"/><text class="legend" x="1442" y="84">pending</text>
 <rect class="group" x="52" y="138" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="159">Group A</text>
+<rect class="pickBgGood" x="62" y="169" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="179">J1 · 🇲🇽 Mexico 1-0 S. Africa 🇿🇦</text>
-<text class="groupPick" x="66" y="192">J1 · 🇰🇷 S. Korea 1-0 Czechia 🇨🇿</text>
-<text class="groupPick" x="66" y="205">J2 · 🇨🇿 Czechia 0-1 S. Africa 🇿🇦</text>
-<text class="groupPick" x="66" y="218">J2 · 🇲🇽 Mexico 1-1 S. Korea 🇰🇷</text>
-<text class="groupPick" x="66" y="231">J3 · 🇨🇿 Czechia 1-2 Mexico 🇲🇽</text>
-<text class="groupPick" x="66" y="244">J3 · 🇿🇦 S. Africa 1-2 S. Korea 🇰🇷</text>
+<rect class="pickBgGood" x="62" y="183" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="193">J1 · 🇰🇷 S. Korea 1-0 Czechia 🇨🇿</text>
+<rect class="pickBgMiss" x="62" y="197" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="207">J2 · 🇨🇿 Czechia 0-1 S. Africa 🇿🇦</text>
+<rect class="pickBgMiss" x="62" y="211" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="221">J2 · 🇲🇽 Mexico 1-1 S. Korea 🇰🇷</text>
+<rect class="pickBgGood" x="62" y="225" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="235">J3 · 🇨🇿 Czechia 1-2 Mexico 🇲🇽</text>
+<rect class="pickBgMiss" x="62" y="239" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="249">J3 · 🇿🇦 S. Africa 1-2 S. Korea 🇰🇷</text>
 <rect class="group" x="52" y="272" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="293">Group B</text>
+<rect class="pickBgMiss" x="62" y="303" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="313">J1 · 🇨🇦 Canada 0-1 Bosnia 🇧🇦</text>
-<text class="groupPick" x="66" y="326">J1 · 🇶🇦 Qatar 0-2 Switzerland 🇨🇭</text>
-<text class="groupPick" x="66" y="339">J2 · 🇨🇭 Switzerland 1-1 Bosnia 🇧🇦</text>
-<text class="groupPick" x="66" y="352">J2 · 🇨🇦 Canada 2-1 Qatar 🇶🇦</text>
-<text class="groupPick" x="66" y="365">J3 · 🇧🇦 Bosnia 2-1 Qatar 🇶🇦</text>
-<text class="groupPick" x="66" y="378">J3 · 🇨🇭 Switzerland 2-1 Canada 🇨🇦</text>
+<rect class="pickBgMiss" x="62" y="317" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="327">J1 · 🇶🇦 Qatar 0-2 Switzerland 🇨🇭</text>
+<rect class="pickBgMiss" x="62" y="331" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="341">J2 · 🇨🇭 Switzerland 1-1 Bosnia 🇧🇦</text>
+<rect class="pickBgGood" x="62" y="345" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="355">J2 · 🇨🇦 Canada 2-1 Qatar 🇶🇦</text>
+<rect class="pickBgGood" x="62" y="359" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="369">J3 · 🇧🇦 Bosnia 2-1 Qatar 🇶🇦</text>
+<rect class="pickBgExact" x="62" y="373" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="383">J3 · 🇨🇭 Switzerland 2-1 Canada 🇨🇦</text>
 <rect class="group" x="52" y="406" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="427">Group C</text>
+<rect class="pickBgMiss" x="62" y="437" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="447">J1 · 🇺🇸 USA 0-1 Paraguay 🇵🇾</text>
-<text class="groupPick" x="66" y="460">J1 · 🇦🇺 Australia 0-1 Türkiye 🇹🇷</text>
-<text class="groupPick" x="66" y="473">J2 · 🇺🇸 USA 1-1 Australia 🇦🇺</text>
-<text class="groupPick" x="66" y="486">J2 · 🇹🇷 Türkiye 0-1 Paraguay 🇵🇾</text>
-<text class="groupPick" x="66" y="499">J3 · 🇵🇾 Paraguay 0-0 Australia 🇦🇺</text>
-<text class="groupPick" x="66" y="512">J3 · 🇹🇷 Türkiye 1-2 USA 🇺🇸</text>
+<rect class="pickBgMiss" x="62" y="451" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="461">J1 · 🇦🇺 Australia 0-1 Türkiye 🇹🇷</text>
+<rect class="pickBgMiss" x="62" y="465" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="475">J2 · 🇺🇸 USA 1-1 Australia 🇦🇺</text>
+<rect class="pickBgExact" x="62" y="479" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="489">J2 · 🇹🇷 Türkiye 0-1 Paraguay 🇵🇾</text>
+<rect class="pickBgExact" x="62" y="493" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="503">J3 · 🇵🇾 Paraguay 0-0 Australia 🇦🇺</text>
+<rect class="pickBgMiss" x="62" y="507" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="517">J3 · 🇹🇷 Türkiye 1-2 USA 🇺🇸</text>
 <rect class="group" x="52" y="540" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="561">Group D</text>
+<rect class="pickBgMiss" x="62" y="571" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="581">J1 · 🇧🇷 Brazil 0-1 Morocco 🇲🇦</text>
-<text class="groupPick" x="66" y="594">J1 · 🇭🇹 Haiti 1-0 Scotland 🏴</text>
-<text class="groupPick" x="66" y="607">J2 · 🏴 Scotland 1-2 Morocco 🇲🇦</text>
-<text class="groupPick" x="66" y="620">J2 · 🇧🇷 Brazil 3-0 Haiti 🇭🇹</text>
-<text class="groupPick" x="66" y="633">J3 · 🇲🇦 Morocco 2-0 Haiti 🇭🇹</text>
-<text class="groupPick" x="66" y="646">J3 · 🏴 Scotland 1-2 Brazil 🇧🇷</text>
+<rect class="pickBgMiss" x="62" y="585" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="595">J1 · 🇭🇹 Haiti 1-0 Scotland 🏴</text>
+<rect class="pickBgGood" x="62" y="599" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="609">J2 · 🏴 Scotland 1-2 Morocco 🇲🇦</text>
+<rect class="pickBgExact" x="62" y="613" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="623">J2 · 🇧🇷 Brazil 3-0 Haiti 🇭🇹</text>
+<rect class="pickBgGood" x="62" y="627" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="637">J3 · 🇲🇦 Morocco 2-0 Haiti 🇭🇹</text>
+<rect class="pickBgGood" x="62" y="641" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="651">J3 · 🏴 Scotland 1-2 Brazil 🇧🇷</text>
 <rect class="group" x="52" y="674" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="695">Group E</text>
+<rect class="pickBgGood" x="62" y="705" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="715">J1 · 🇩🇪 Germany 3-0 Curacao 🇨🇼</text>
-<text class="groupPick" x="66" y="728">J1 · 🇨🇮 C. d&#x27;Ivoire 1-0 Ecuador 🇪🇨</text>
-<text class="groupPick" x="66" y="741">J2 · 🇩🇪 Germany 2-1 C. d&#x27;Ivoire 🇨🇮</text>
-<text class="groupPick" x="66" y="754">J2 · 🇪🇨 Ecuador 2-0 Curacao 🇨🇼</text>
-<text class="groupPick" x="66" y="767">J3 · 🇨🇼 Curacao 0-2 C. d&#x27;Ivoire 🇨🇮</text>
-<text class="groupPick" x="66" y="780">J3 · 🇪🇨 Ecuador 1-2 Germany 🇩🇪</text>
+<rect class="pickBgExact" x="62" y="719" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="729">J1 · 🇨🇮 C. d&#x27;Ivoire 1-0 Ecuador 🇪🇨</text>
+<rect class="pickBgExact" x="62" y="733" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="743">J2 · 🇩🇪 Germany 2-1 C. d&#x27;Ivoire 🇨🇮</text>
+<rect class="pickBgMiss" x="62" y="747" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="757">J2 · 🇪🇨 Ecuador 2-0 Curacao 🇨🇼</text>
+<rect class="pickBgExact" x="62" y="761" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="771">J3 · 🇨🇼 Curacao 0-2 C. d&#x27;Ivoire 🇨🇮</text>
+<rect class="pickBgMiss" x="62" y="775" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="785">J3 · 🇪🇨 Ecuador 1-2 Germany 🇩🇪</text>
 <rect class="group" x="52" y="808" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="829">Group F</text>
+<rect class="pickBgMiss" x="62" y="839" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="849">J1 · 🇳🇱 Netherlands 0-1 Japan 🇯🇵</text>
-<text class="groupPick" x="66" y="862">J1 · 🇸🇪 Sweden 0-1 Tunisia 🇹🇳</text>
-<text class="groupPick" x="66" y="875">J2 · 🇳🇱 Netherlands 2-1 Sweden 🇸🇪</text>
-<text class="groupPick" x="66" y="888">J2 · 🇹🇳 Tunisia 1-2 Japan 🇯🇵</text>
-<text class="groupPick" x="66" y="901">J3 · 🇯🇵 Japan 2-1 Sweden 🇸🇪</text>
-<text class="groupPick" x="66" y="914">J3 · 🇹🇳 Tunisia 0-2 Netherlands 🇳🇱</text>
+<rect class="pickBgMiss" x="62" y="853" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="863">J1 · 🇸🇪 Sweden 0-1 Tunisia 🇹🇳</text>
+<rect class="pickBgGood" x="62" y="867" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="877">J2 · 🇳🇱 Netherlands 2-1 Sweden 🇸🇪</text>
+<rect class="pickBgGood" x="62" y="881" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="891">J2 · 🇹🇳 Tunisia 1-2 Japan 🇯🇵</text>
+<rect class="pickBgMiss" x="62" y="895" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="905">J3 · 🇯🇵 Japan 2-1 Sweden 🇸🇪</text>
+<rect class="pickBgGood" x="62" y="909" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="919">J3 · 🇹🇳 Tunisia 0-2 Netherlands 🇳🇱</text>
 <rect class="group" x="52" y="942" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="963">Group G</text>
+<rect class="pickBgMiss" x="62" y="973" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="983">J1 · 🇪🇸 Spain 3-0 Cape Verde 🇨🇻</text>
-<text class="groupPick" x="66" y="996">J1 · 🇸🇦 Saudi 0-2 Uruguay 🇺🇾</text>
-<text class="groupPick" x="66" y="1009">J2 · 🇪🇸 Spain 2-0 Saudi 🇸🇦</text>
-<text class="groupPick" x="66" y="1022">J2 · 🇺🇾 Uruguay 2-1 Cape Verde 🇨🇻</text>
-<text class="groupPick" x="66" y="1035">J3 · 🇨🇻 Cape Verde 2-1 Saudi 🇸🇦</text>
-<text class="groupPick" x="66" y="1048">J3 · 🇺🇾 Uruguay 1-2 Spain 🇪🇸</text>
+<rect class="pickBgMiss" x="62" y="987" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="997">J1 · 🇸🇦 Saudi 0-2 Uruguay 🇺🇾</text>
+<rect class="pickBgGood" x="62" y="1001" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1011">J2 · 🇪🇸 Spain 2-0 Saudi 🇸🇦</text>
+<rect class="pickBgMiss" x="62" y="1015" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1025">J2 · 🇺🇾 Uruguay 2-1 Cape Verde 🇨🇻</text>
+<rect class="pickBgMiss" x="62" y="1029" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1039">J3 · 🇨🇻 Cape Verde 2-1 Saudi 🇸🇦</text>
+<rect class="pickBgGood" x="62" y="1043" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1053">J3 · 🇺🇾 Uruguay 1-2 Spain 🇪🇸</text>
 <rect class="group" x="52" y="1076" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="1097">Group H</text>
+<rect class="pickBgMiss" x="62" y="1107" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="1117">J1 · 🇧🇪 Belgium 0-1 Egypt 🇪🇬</text>
-<text class="groupPick" x="66" y="1130">J1 · 🇮🇷 Iran 0-1 N. Zealand 🇳🇿</text>
-<text class="groupPick" x="66" y="1143">J2 · 🇧🇪 Belgium 2-1 Iran 🇮🇷</text>
-<text class="groupPick" x="66" y="1156">J2 · 🇳🇿 N. Zealand 1-2 Egypt 🇪🇬</text>
-<text class="groupPick" x="66" y="1169">J3 · 🇪🇬 Egypt 1-1 Iran 🇮🇷</text>
-<text class="groupPick" x="66" y="1182">J3 · 🇳🇿 N. Zealand 0-2 Belgium 🇧🇪</text>
+<rect class="pickBgMiss" x="62" y="1121" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1131">J1 · 🇮🇷 Iran 0-1 N. Zealand 🇳🇿</text>
+<rect class="pickBgMiss" x="62" y="1135" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1145">J2 · 🇧🇪 Belgium 2-1 Iran 🇮🇷</text>
+<rect class="pickBgGood" x="62" y="1149" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1159">J2 · 🇳🇿 N. Zealand 1-2 Egypt 🇪🇬</text>
+<rect class="pickBgExact" x="62" y="1163" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1173">J3 · 🇪🇬 Egypt 1-1 Iran 🇮🇷</text>
+<rect class="pickBgGood" x="62" y="1177" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1187">J3 · 🇳🇿 N. Zealand 0-2 Belgium 🇧🇪</text>
 <rect class="group" x="52" y="1210" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="1231">Group I</text>
+<rect class="pickBgGood" x="62" y="1241" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="1251">J1 · 🇫🇷 France 2-0 Senegal 🇸🇳</text>
-<text class="groupPick" x="66" y="1264">J1 · 🇮🇶 Iraq 0-2 Norway 🇳🇴</text>
-<text class="groupPick" x="66" y="1277">J2 · 🇫🇷 France 3-0 Iraq 🇮🇶</text>
-<text class="groupPick" x="66" y="1290">J2 · 🇳🇴 Norway 1-2 Senegal 🇸🇳</text>
-<text class="groupPick" x="66" y="1303">J3 · 🇳🇴 Norway 1-2 France 🇫🇷</text>
-<text class="groupPick" x="66" y="1316">J3 · 🇸🇳 Senegal 2-0 Iraq 🇮🇶</text>
+<rect class="pickBgGood" x="62" y="1255" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1265">J1 · 🇮🇶 Iraq 0-2 Norway 🇳🇴</text>
+<rect class="pickBgExact" x="62" y="1269" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1279">J2 · 🇫🇷 France 3-0 Iraq 🇮🇶</text>
+<rect class="pickBgMiss" x="62" y="1283" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1293">J2 · 🇳🇴 Norway 1-2 Senegal 🇸🇳</text>
+<rect class="pickBgGood" x="62" y="1297" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1307">J3 · 🇳🇴 Norway 1-2 France 🇫🇷</text>
+<rect class="pickBgGood" x="62" y="1311" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1321">J3 · 🇸🇳 Senegal 2-0 Iraq 🇮🇶</text>
 <rect class="group" x="52" y="1344" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="1365">Group J</text>
+<rect class="pickBgGood" x="62" y="1375" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="1385">J1 · 🇦🇷 Argentina 2-0 Algeria 🇩🇿</text>
-<text class="groupPick" x="66" y="1398">J1 · 🇦🇹 Austria 2-0 Jordan 🇯🇴</text>
-<text class="groupPick" x="66" y="1411">J2 · 🇦🇷 Argentina 2-1 Austria 🇦🇹</text>
-<text class="groupPick" x="66" y="1424">J2 · 🇯🇴 Jordan 1-2 Algeria 🇩🇿</text>
-<text class="groupPick" x="66" y="1437">J3 · 🇩🇿 Algeria 1-1 Austria 🇦🇹</text>
-<text class="groupPick" x="66" y="1450">J3 · 🇯🇴 Jordan 0-2 Argentina 🇦🇷</text>
+<rect class="pickBgGood" x="62" y="1389" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1399">J1 · 🇦🇹 Austria 2-0 Jordan 🇯🇴</text>
+<rect class="pickBgGood" x="62" y="1403" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1413">J2 · 🇦🇷 Argentina 2-1 Austria 🇦🇹</text>
+<rect class="pickBgExact" x="62" y="1417" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1427">J2 · 🇯🇴 Jordan 1-2 Algeria 🇩🇿</text>
+<rect class="pickBgGood" x="62" y="1431" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1441">J3 · 🇩🇿 Algeria 1-1 Austria 🇦🇹</text>
+<rect class="pickBgGood" x="62" y="1445" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1455">J3 · 🇯🇴 Jordan 0-2 Argentina 🇦🇷</text>
 <rect class="group" x="52" y="1478" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="1499">Group K</text>
+<rect class="pickBgMiss" x="62" y="1509" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="1519">J1 · 🇵🇹 Portugal 2-0 Congo DR 🇨🇩</text>
-<text class="groupPick" x="66" y="1532">J1 · 🇺🇿 Uzbekistan 0-2 Colombia 🇨🇴</text>
-<text class="groupPick" x="66" y="1545">J2 · 🇵🇹 Portugal 2-0 Uzbekistan 🇺🇿</text>
-<text class="groupPick" x="66" y="1558">J2 · 🇨🇴 Colombia 2-1 Congo DR 🇨🇩</text>
-<text class="groupPick" x="66" y="1571">J3 · 🇨🇴 Colombia 1-2 Portugal 🇵🇹</text>
-<text class="groupPick" x="66" y="1584">J3 · 🇨🇩 Congo DR 2-1 Uzbekistan 🇺🇿</text>
+<rect class="pickBgGood" x="62" y="1523" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1533">J1 · 🇺🇿 Uzbekistan 0-2 Colombia 🇨🇴</text>
+<rect class="pickBgGood" x="62" y="1537" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1547">J2 · 🇵🇹 Portugal 2-0 Uzbekistan 🇺🇿</text>
+<rect class="pickBgGood" x="62" y="1551" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1561">J2 · 🇨🇴 Colombia 2-1 Congo DR 🇨🇩</text>
+<rect class="pickBgMiss" x="62" y="1565" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1575">J3 · 🇨🇴 Colombia 1-2 Portugal 🇵🇹</text>
+<rect class="pickBgGood" x="62" y="1579" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1589">J3 · 🇨🇩 Congo DR 2-1 Uzbekistan 🇺🇿</text>
 <rect class="group" x="52" y="1612" width="390" height="122" rx="12"/>
 <text class="groupName" x="66" y="1633">Group L</text>
+<rect class="pickBgMiss" x="62" y="1643" width="370" height="13" rx="4"/>
 <text class="groupPick" x="66" y="1653">J1 · 🏴 England 0-1 Croatia 🇭🇷</text>
-<text class="groupPick" x="66" y="1666">J1 · 🇬🇭 Ghana 0-1 Panama 🇵🇦</text>
-<text class="groupPick" x="66" y="1679">J2 · 🏴 England 2-0 Ghana 🇬🇭</text>
-<text class="groupPick" x="66" y="1692">J2 · 🇵🇦 Panama 1-2 Croatia 🇭🇷</text>
-<text class="groupPick" x="66" y="1705">J3 · 🇭🇷 Croatia 2-1 Ghana 🇬🇭</text>
-<text class="groupPick" x="66" y="1718">J3 · 🇵🇦 Panama 0-2 England 🏴</text>
-<rect class="card" x="520" y="138" width="330" height="82" rx="14"/>
+<rect class="pickBgMiss" x="62" y="1657" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1667">J1 · 🇬🇭 Ghana 0-1 Panama 🇵🇦</text>
+<rect class="pickBgMiss" x="62" y="1671" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1681">J2 · 🏴 England 2-0 Ghana 🇬🇭</text>
+<rect class="pickBgGood" x="62" y="1685" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1695">J2 · 🇵🇦 Panama 1-2 Croatia 🇭🇷</text>
+<rect class="pickBgExact" x="62" y="1699" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1709">J3 · 🇭🇷 Croatia 2-1 Ghana 🇬🇭</text>
+<rect class="pickBgExact" x="62" y="1713" width="370" height="13" rx="4"/>
+<text class="groupPick" x="66" y="1723">J3 · 🇵🇦 Panama 0-2 England 🏴</text>
+<rect class="card pending" x="520" y="138" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="158">J4 pick</text>
 <text class="team" x="536" y="185">🇿🇦 South Africa</text>
 <text class="score" x="816" y="185" text-anchor="middle">0</text>
 <text class="team" x="536" y="210">🇨🇦 Canada</text>
 <text class="score" x="816" y="210" text-anchor="middle">1</text>
-<rect class="card" x="520" y="238" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="238" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="258">J4 pick</text>
 <text class="team" x="536" y="285">🇧🇷 Brazil</text>
 <text class="score" x="816" y="285" text-anchor="middle">2</text>
 <text class="team" x="536" y="310">🇯🇵 Japan</text>
 <text class="score" x="816" y="310" text-anchor="middle">0</text>
-<rect class="card" x="520" y="338" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="338" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="358">J4 pick</text>
 <text class="team" x="536" y="385">🇩🇪 Germany</text>
 <text class="score" x="816" y="385" text-anchor="middle">2</text>
 <text class="team" x="536" y="410">🇵🇾 Paraguay</text>
 <text class="score" x="816" y="410" text-anchor="middle">0</text>
-<rect class="card" x="520" y="438" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="438" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="458">J4 pick</text>
 <text class="team" x="536" y="485">🇳🇱 Netherlands</text>
 <text class="score" x="816" y="485" text-anchor="middle">1</text>
 <text class="team" x="536" y="510">🇲🇦 Morocco</text>
 <text class="score" x="816" y="510" text-anchor="middle">0</text>
-<rect class="card" x="520" y="538" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="538" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="558">J4 pick</text>
 <text class="team" x="536" y="585">🇨🇮 Ivory Coast</text>
 <text class="score" x="816" y="585" text-anchor="middle">1</text>
 <text class="team" x="536" y="610">🇳🇴 Norway</text>
 <text class="score" x="816" y="610" text-anchor="middle">2</text>
-<rect class="card" x="520" y="638" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="638" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="658">J4 pick</text>
 <text class="team" x="536" y="685">🇫🇷 France</text>
 <text class="score" x="816" y="685" text-anchor="middle">2</text>
 <text class="team" x="536" y="710">🇸🇪 Sweden</text>
 <text class="score" x="816" y="710" text-anchor="middle">0</text>
-<rect class="card" x="520" y="738" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="738" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="758">J4 pick</text>
 <text class="team" x="536" y="785">🇲🇽 Mexico</text>
 <text class="score" x="816" y="785" text-anchor="middle">1</text>
 <text class="team" x="536" y="810">🇪🇨 Ecuador</text>
 <text class="score" x="816" y="810" text-anchor="middle">0</text>
-<rect class="card" x="520" y="838" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="838" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="858">J4 pick</text>
 <text class="team" x="536" y="885">🏴 England</text>
 <text class="score" x="816" y="885" text-anchor="middle">1</text>
 <text class="team" x="536" y="910">🇨🇩 Congo DR</text>
 <text class="score" x="816" y="910" text-anchor="middle">0</text>
-<rect class="card" x="520" y="938" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="938" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="958">J4 pick</text>
 <text class="team" x="536" y="985">🇧🇪 Belgium</text>
 <text class="score" x="816" y="985" text-anchor="middle">1</text>
 <text class="team" x="536" y="1010">🇸🇳 Senegal</text>
 <text class="score" x="816" y="1010" text-anchor="middle">0</text>
-<rect class="card" x="520" y="1038" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1038" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1058">J4 pick</text>
 <text class="team" x="536" y="1085">🇺🇸 USA</text>
 <text class="score" x="816" y="1085" text-anchor="middle">2</text>
 <text class="team" x="536" y="1110">🇧🇦 Bosnia-Herz</text>
 <text class="score" x="816" y="1110" text-anchor="middle">0</text>
-<rect class="card" x="520" y="1138" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1138" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1158">J4 pick</text>
 <text class="team" x="536" y="1185">🇪🇸 Spain</text>
 <text class="score" x="816" y="1185" text-anchor="middle">1</text>
 <text class="team" x="536" y="1210">🇦🇹 Austria</text>
 <text class="score" x="816" y="1210" text-anchor="middle">0</text>
-<rect class="card" x="520" y="1238" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1238" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1258">J4 pick</text>
 <text class="team" x="536" y="1285">🇵🇹 Portugal</text>
 <text class="score" x="816" y="1285" text-anchor="middle">1</text>
 <text class="team" x="536" y="1310">🇭🇷 Croatia</text>
 <text class="score" x="816" y="1310" text-anchor="middle">0</text>
-<rect class="card" x="520" y="1338" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1338" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1358">J4 pick</text>
 <text class="team" x="536" y="1385">🇨🇭 Switzerland</text>
 <text class="score" x="816" y="1385" text-anchor="middle">2</text>
 <text class="team" x="536" y="1410">🇩🇿 Algeria</text>
 <text class="score" x="816" y="1410" text-anchor="middle">1</text>
-<rect class="card" x="520" y="1438" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1438" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1458">J4 pick</text>
 <text class="team" x="536" y="1485">🇦🇺 Australia</text>
 <text class="score" x="816" y="1485" text-anchor="middle">1</text>
 <text class="team" x="536" y="1510">🇪🇬 Egypt</text>
 <text class="score" x="816" y="1510" text-anchor="middle">1</text>
-<rect class="card" x="520" y="1538" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1538" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1558">J4 pick</text>
 <text class="team" x="536" y="1585">🇦🇷 Argentina</text>
 <text class="score" x="816" y="1585" text-anchor="middle">2</text>
 <text class="team" x="536" y="1610">🇨🇻 Cape Verde</text>
 <text class="score" x="816" y="1610" text-anchor="middle">0</text>
-<rect class="card" x="520" y="1638" width="330" height="82" rx="14"/>
+<rect class="card pending" x="520" y="1638" width="330" height="82" rx="14"/>
 <text class="meta" x="536" y="1658">J4 pick</text>
 <text class="team" x="536" y="1685">🇨🇴 Colombia</text>
 <text class="score" x="816" y="1685" text-anchor="middle">1</text>

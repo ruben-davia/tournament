@@ -371,7 +371,7 @@ def draw_connector(parts: list[str], start_x: float, top_y: float, bottom_y: flo
 def draw_pick_card(parts: list[str], x: float, y: float, w: float, h: float, row: dict[str, object], meta: str) -> None:
     home = str(row["home"])
     away = str(row["away"])
-    parts.append(f'<rect class="card" x="{x}" y="{y}" width="{w}" height="{h}" rx="14"/>')
+    parts.append(f'<rect class="card {pick_status(row)}" x="{x}" y="{y}" width="{w}" height="{h}" rx="14"/>')
     parts.append(f'<text class="meta" x="{x + 16}" y="{y + 20}">{html.escape(meta)}</text>')
     parts.append(f'<text class="team" x="{x + 16}" y="{y + 47}">{html.escape(team_label(home))}</text>')
     parts.append(f'<text class="score" x="{x + w - 34}" y="{y + 47}" text-anchor="middle">{row["home_pick"]}</text>')
@@ -430,13 +430,46 @@ def short_team(team: str) -> str:
     return replacements.get(team, team)
 
 
+def pick_status(row: dict[str, object]) -> str:
+    score_home = row.get("score_home")
+    score_away = row.get("score_away")
+    if score_home is None or score_away is None:
+        return "pending"
+    home_pick = int(row["home_pick"])
+    away_pick = int(row["away_pick"])
+    score_home = int(score_home)
+    score_away = int(score_away)
+    if home_pick == score_home and away_pick == score_away:
+        return "exact"
+    if outcome(home_pick, away_pick) == outcome(score_home, score_away):
+        return "good"
+    return "miss"
+
+
+def outcome(home: int, away: int) -> int:
+    if home > away:
+        return 1
+    if away > home:
+        return -1
+    return 0
+
+
+def pick_bg_class(row: dict[str, object]) -> str:
+    return {
+        "exact": "pickBgExact",
+        "good": "pickBgGood",
+        "miss": "pickBgMiss",
+        "pending": "pickBgPending",
+    }[pick_status(row)]
+
+
 def render_html(picks_by_day: dict[int, list[dict[str, object]]]) -> str:
     columns = []
     for day, rows in picks_by_day.items():
         table_rows = []
         for row in rows:
             table_rows.append(
-                f"<tr><td>{len(table_rows) + 1}</td><td>{html.escape(label(row))}</td></tr>"
+                f"<tr class='{pick_status(row)}'><td>{len(table_rows) + 1}</td><td>{html.escape(label(row))}</td></tr>"
             )
         columns.append(
             "<section class='day-column'>"
@@ -463,6 +496,10 @@ def render_html(picks_by_day: dict[int, list[dict[str, object]]]) -> str:
     .day-column p {{ margin: 0; padding: 8px 14px; border-radius: 999px; background: #343743; color: #d9dce4; font-weight: 750; font-size: 14px; }}
     table {{ width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 8px; border: 1px solid #555966; background: #282b35; }}
     tr:nth-child(even) {{ background: #2d303a; }}
+    tr.exact {{ background: #213b2a; }}
+    tr.good {{ background: #213941; }}
+    tr.miss {{ background: #402527; }}
+    tr.pending {{ background: #2d2f39; }}
     td {{ border-top: 1px solid #50545f; padding: 10px 12px; font-size: 16px; font-weight: 750; }}
     td:first-child {{ width: 30px; color: #8f95a3; text-align: right; border-right: 1px solid #50545f; }}
     @media (max-width: 1200px) {{ .board {{ grid-template-columns: repeat(2, minmax(320px, 1fr)); }} }}
